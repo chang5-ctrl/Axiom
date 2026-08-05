@@ -15,6 +15,8 @@ import {
   ShieldCheck,
   Users,
   UserCircle,
+  Car,
+  Calendar,
   type LucideIcon,
 } from "lucide-react";
 
@@ -55,6 +57,19 @@ export const TENANT_NAV: NavSection[] = [
       { to: "/app/business", label: "Business Profile", icon: Building2, permission: "core.tenant.view" },
       { to: "/app/billing", label: "Billing", icon: CreditCard, permission: "core.billing.view" },
       { to: "/app/activity", label: "Activity Log", icon: Activity, permission: "core.audit.view" },
+    ],
+  },
+  {
+    id: "automotive",
+    label: "Automotive",
+    items: [
+      { to: "/app/automotive", label: "Overview", icon: Car, module: "automotive" },
+      { to: "/app/automotive/vehicles", label: "Vehicles", icon: Car, module: "automotive", permission: "automotive.vehicles.view" },
+      { to: "/app/automotive/customers", label: "Customers", icon: Users, module: "automotive", permission: "automotive.customers.manage" },
+      { to: "/app/automotive/sales", label: "Sales", icon: BadgeDollarSign, module: "automotive", permission: "automotive.sales.manage" },
+      { to: "/app/automotive/reservations", label: "Reservations", icon: Calendar, module: "automotive", permission: "automotive.reservations.manage" },
+      { to: "/app/automotive/documents", label: "Documents", icon: ScrollText, module: "automotive", permission: "automotive.reports.view" },
+      { to: "/app/automotive/reports", label: "Reports", icon: ScrollText, module: "automotive", permission: "automotive.reports.view" },
     ],
   },
   {
