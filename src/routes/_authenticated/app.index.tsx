@@ -21,7 +21,7 @@ function TenantDashboard() {
         actions={membership ? <StatusBadge status={membership.tenant.status} /> : null}
       />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Team members" value={workspace?.members?.length ?? 0} icon={Users} />
+        <StatCard label="Team members" value={workspace?.team?.length ?? 0} icon={Users} />
         <StatCard label="Your role" value={membership?.roleKey ?? "—"} icon={ShieldCheck} />
         <StatCard label="Plan" value={workspace?.subscription?.plan?.name ?? "Trial"} icon={CreditCard} />
         <StatCard label="Active modules" value={workspace?.modules?.length ?? 0} icon={Building2} />
