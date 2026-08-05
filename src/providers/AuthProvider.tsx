@@ -1,198 +1,111 @@
-import type { Session, User } from "@supabase/supabase-js";
-import { createContext, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { supabase } from '@/integrations/supabase/client';
+import { authService } from '@/services/auth.service';
+import { tenantService } from '@/services/tenant.service';
+import { moduleService } from '@/services/module.service';
+import type { TenantMembership, TenantWorkspace } from '@/services/tenant.service';
 
-import { supabase } from "@/integrations/supabase/client";
-import { authService } from "@/services/auth.service";
-import { platformService } from "@/services/platform.service";
-import { tenantService, type TenantWorkspace } from "@/services/tenant.service";
-import type { Profile, TenantMembership } from "@/types/core";
-
-const ACTIVE_TENANT_KEY = "axiom.activeTenantId";
-
-export interface AuthContextValue {
-  session: Session | null;
-  user: User | null;
-  profile: Profile | null;
+interface AuthContextType {
+  user: any | null;
+  loading: boolean;
   memberships: TenantMembership[];
   membership: TenantMembership | null;
   workspace: TenantWorkspace | null;
-  permissions: Set<string>;
-  isPlatformAdmin: boolean;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  error: string | null;
   can: (permission: string) => boolean;
-  hasRole: (...roles: string[]) => boolean;
   isModuleEnabled: (moduleKey: string) => boolean;
-  switchTenant: (tenantId: string) => void;
-  refresh: () => Promise<void>;
-  signOut: () => Promise<void>;
+  switchTenant: (tenantId: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextValue | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-function readStoredTenant(): string | null {
-  if (typeof window === "undefined") return null;
-  return window.localStorage.getItem(ACTIVE_TENANT_KEY);
-}
-
-/**
- * Owns session, tenant context and permissions for the whole app.
- * Every tenant-scoped read downstream derives its tenant id from here.
- */
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
   const [memberships, setMemberships] = useState<TenantMembership[]>([]);
-  const [activeTenantId, setActiveTenantId] = useState<string | null>(null);
+  const [membership, setMembership] = useState<TenantMembership | null>(null);
   const [workspace, setWorkspace] = useState<TenantWorkspace | null>(null);
-  const [isPlatformAdmin, setIsPlatformAdmin] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const loadContext = useCallback(async (currentSession: Session | null) => {
-    if (!currentSession?.user) {
-      setProfile(null);
-      setMemberships([]);
-      setWorkspace(null);
-      setActiveTenantId(null);
-      setIsPlatformAdmin(false);
-      setIsLoading(false);
-      return;
-    }
-
-    const userId = currentSession.user.id;
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const [profileResponse, membershipList, admin] = await Promise.all([
-        supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
-        tenantService.listMemberships(userId),
-        platformService.isPlatformAdmin(userId).catch(() => false),
-      ]);
-
-      setProfile(profileResponse.data ?? null);
-      setMemberships(membershipList);
-      setIsPlatformAdmin(admin);
-
-      const stored = readStoredTenant();
-      const selected =
-        membershipList.find((item) => item.tenantId === stored) ?? membershipList[0] ?? null;
-
-      if (!selected) {
-        setActiveTenantId(null);
-        setWorkspace(null);
-        return;
-      }
-
-      setActiveTenantId(selected.tenantId);
-      window.localStorage.setItem(ACTIVE_TENANT_KEY, selected.tenantId);
-      setWorkspace(await tenantService.loadWorkspace(selected.tenantId, selected));
-    } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : "Unable to load your workspace");
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
-    let active = true;
+    const initAuth = async () => {
+      try {
+        const currentUser = await authService.getUser();
+        setUser(currentUser);
 
-    const { data: subscription } = supabase.auth.onAuthStateChange((event, nextSession) => {
-      if (!active) return;
-      setSession(nextSession);
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
-        void loadContext(nextSession);
+        if (currentUser) {
+          const userMemberships = await tenantService.listMemberships(currentUser.id);
+          setMemberships(userMemberships);
+
+          if (userMemberships.length > 0) {
+            const defaultMembership = userMemberships[0];
+            setMembership(defaultMembership);
+            const ws = await tenantService.loadWorkspace(
+              defaultMembership.tenantId,
+              defaultMembership,
+            );
+            setWorkspace(ws);
+          }
+        }
+      } catch (error) {
+        console.error('Auth initialization failed:', error);
+      } finally {
+        setLoading(false);
       }
-    });
-
-    void supabase.auth.getSession().then(({ data }) => {
-      if (!active) return;
-      setSession(data.session);
-      void loadContext(data.session);
-    });
-
-    return () => {
-      active = false;
-      subscription.subscription.unsubscribe();
     };
-  }, [loadContext]);
 
-  const switchTenant = useCallback(
-    (tenantId: string) => {
-      const target = memberships.find((item) => item.tenantId === tenantId);
-      if (!target) return;
-      window.localStorage.setItem(ACTIVE_TENANT_KEY, tenantId);
-      setActiveTenantId(tenantId);
-      setIsLoading(true);
-      tenantService
-        .loadWorkspace(tenantId, target)
-        .then(setWorkspace)
-        .catch((switchError: unknown) =>
-          setError(switchError instanceof Error ? switchError.message : "Unable to switch workspace"),
-        )
-        .finally(() => setIsLoading(false));
-    },
-    [memberships],
-  );
-
-  const refresh = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
-    await loadContext(data.session);
-  }, [loadContext]);
-
-  const signOut = useCallback(async () => {
-    await authService.signOut();
-    window.localStorage.removeItem(ACTIVE_TENANT_KEY);
+    initAuth();
   }, []);
 
-  const membership = useMemo(
-    () => memberships.find((item) => item.tenantId === activeTenantId) ?? null,
-    [memberships, activeTenantId],
+  const switchTenant = async (tenantId: string) => {
+    const targetMembership = memberships.find((m) => m.tenantId === tenantId);
+    if (!targetMembership) return;
+
+    setMembership(targetMembership);
+    const ws = await tenantService.loadWorkspace(tenantId, targetMembership);
+    setWorkspace(ws);
+  };
+
+  const can = (permission: string): boolean => {
+    return workspace?.permissions?.includes(permission) ?? false;
+  };
+
+  const isModuleEnabled = (moduleKey: string): boolean => {
+    return workspace?.modules?.some((m) => m.module_key === moduleKey) ?? false;
+  };
+
+  const logout = async () => {
+    await authService.signOut();
+    setUser(null);
+    setMembership(null);
+    setWorkspace(null);
+    navigate({ to: '/login' });
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        memberships,
+        membership,
+        workspace,
+        can,
+        isModuleEnabled,
+        switchTenant,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
+}
 
-  const permissions = useMemo(() => new Set(workspace?.permissions ?? []), [workspace]);
-
-  const value = useMemo<AuthContextValue>(() => {
-    const enabledModules = new Set(
-      (workspace?.modules ?? []).filter((item) => item.enabled).map((item) => item.module_key),
-    );
-
-    return {
-      session,
-      user: session?.user ?? null,
-      profile,
-      memberships,
-      membership,
-      workspace,
-      permissions,
-      isPlatformAdmin,
-      isLoading,
-      isAuthenticated: Boolean(session?.user),
-      error,
-      can: (permission: string) =>
-        membership?.roleKey === "owner" || permissions.has(permission),
-      hasRole: (...roles: string[]) => Boolean(membership && roles.includes(membership.roleKey)),
-      isModuleEnabled: (moduleKey: string) => enabledModules.has(moduleKey),
-      switchTenant,
-      refresh,
-      signOut,
-    };
-  }, [
-    session,
-    profile,
-    memberships,
-    membership,
-    workspace,
-    permissions,
-    isPlatformAdmin,
-    isLoading,
-    error,
-    switchTenant,
-    refresh,
-    signOut,
-  ]);
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+export function useAuth(): AuthContextType {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 }
