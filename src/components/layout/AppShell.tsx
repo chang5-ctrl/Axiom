@@ -1,16 +1,16 @@
-import { Outlet } from "@tanstack/react-router";
-import { Building2, ChevronsUpDown } from "lucide-react";
-import { useMemo } from "react";
+import { Outlet } from '@tanstack/react-router';
+import { Building2, ChevronsUpDown } from 'lucide-react';
+import { useMemo } from 'react';
 
-import { StatusBadge } from "@/components/common/StatusBadge";
+import { StatusBadge } from '@/components/common/StatusBadge';
 import {
   ShellSidebar,
   ShellSidebarMobile,
   SidebarCollapseButton,
   useShellState,
-} from "@/components/layout/ShellSidebar";
-import { ShellTopbar } from "@/components/layout/ShellTopbar";
-import { Button } from "@/components/ui/button";
+} from '@/components/layout/ShellSidebar';
+import { ShellTopbar } from '@/components/layout/ShellTopbar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,10 +18,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Skeleton } from "@/components/ui/skeleton";
-import { TENANT_NAV } from "@/config/navigation";
-import { useAuth } from "@/hooks/useAuth";
+} from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useAuth } from '@/hooks/useAuth';
+import { useDynamicNavigation } from '@/hooks/useDynamicNavigation';
 
 function WorkspaceSwitcher() {
   const { memberships, membership, workspace, switchTenant } = useAuth();
@@ -62,8 +62,8 @@ function WorkspaceSwitcher() {
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
-          {workspace?.subscription?.plan?.name ?? "No plan"} ·{" "}
-          {workspace?.subscription?.status ?? "inactive"}
+          {workspace?.subscription?.plan?.name ?? 'No plan'} ·{' '}
+          {workspace?.subscription?.status ?? 'inactive'}
         </DropdownMenuLabel>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -73,20 +73,7 @@ function WorkspaceSwitcher() {
 /** Tenant workspace shell: sidebar, top navigation, notifications, profile. */
 export function AppShell() {
   const { collapsed, mobileOpen, setMobileOpen, toggleCollapsed } = useShellState();
-  const { can, isModuleEnabled } = useAuth();
-
-  const sections = useMemo(
-    () =>
-      TENANT_NAV.map((section) => ({
-        ...section,
-        items: section.items.filter(
-          (item) =>
-            (!item.permission || can(item.permission)) &&
-            (!item.module || isModuleEnabled(item.module)),
-        ),
-      })).filter((section) => section.items.length > 0),
-    [can, isModuleEnabled],
-  );
+  const sections = useDynamicNavigation();
 
   return (
     <div className="flex min-h-screen w-full bg-background">
