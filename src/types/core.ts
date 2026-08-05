@@ -31,6 +31,14 @@ export type TenantModule = Row<"tenant_modules">;
 export type Setting = Row<"settings">;
 export type AuditLog = Row<"audit_logs">;
 
+// Module Registry Types
+export type ModuleRegistry = Row<"module_registry">;
+export type ModuleRegistryInsert = Insert<"module_registry">;
+export type ModuleRegistryUpdate = Update<"module_registry">;
+export type TenantModuleRegistry = Row<"tenant_module_registry">;
+export type TenantModuleRegistryInsert = Insert<"tenant_module_registry">;
+export type TenantModuleRegistryUpdate = Update<"tenant_module_registry">;
+
 /** Built-in role keys. Custom roles may add any other key at runtime. */
 export const SYSTEM_ROLE_KEYS = [
   "owner",
@@ -70,3 +78,6 @@ export interface AuthCredentials {
 
 /** Result shape used by every service call so callers never throw blindly. */
 export type ServiceResult<T> = { data: T; error: null } | { data: null; error: string };
+
+// Re-export module types for convenience
+export type { ModuleMetadata, ModuleStatus, ModuleCategory } from '@/types/module';
