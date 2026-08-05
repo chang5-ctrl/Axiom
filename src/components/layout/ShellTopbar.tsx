@@ -76,7 +76,7 @@ export function ShellTopbar({
           {notificationsHref && (
             <div className="border-t border-border p-2">
               <Button asChild variant="ghost" size="sm" className="w-full">
-                <Link to={notificationsHref}>View all</Link>
+                <Link to={notificationsHref as never}>View all</Link>
               </Button>
             </div>
           )}
@@ -110,12 +110,12 @@ export function ShellTopbar({
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link to={profileHref} className="flex items-center gap-2">
+            <Link to={profileHref as never} className="flex items-center gap-2">
               <UserCircle className="size-4" /> Profile
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link to={settingsHref} className="flex items-center gap-2">
+            <Link to={settingsHref as never} className="flex items-center gap-2">
               <Settings className="size-4" /> Settings
             </Link>
           </DropdownMenuItem>

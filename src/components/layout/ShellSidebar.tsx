@@ -36,7 +36,7 @@ function NavList({ sections, collapsed, onNavigate }: Omit<ShellNavProps, "subti
             return (
               <Link
                 key={item.to}
-                to={item.to}
+                to={item.to as never}
                 onClick={onNavigate}
                 title={collapsed ? item.label : undefined}
                 className={cn(
