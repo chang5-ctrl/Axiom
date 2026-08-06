@@ -58,6 +58,276 @@ export type Database = {
           },
         ]
       }
+      automotive_customers: {
+        Row: {
+          address: string | null
+          created_at: string
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          notes: string | null
+          phone: string | null
+          preferred_vehicle: string | null
+          status: Database["public"]["Enums"]["automotive_customer_status"]
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          notes?: string | null
+          phone?: string | null
+          preferred_vehicle?: string | null
+          status?: Database["public"]["Enums"]["automotive_customer_status"]
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          notes?: string | null
+          phone?: string | null
+          preferred_vehicle?: string | null
+          status?: Database["public"]["Enums"]["automotive_customer_status"]
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automotive_customers_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automotive_reservations: {
+        Row: {
+          created_at: string
+          customer_id: string
+          expiry_date: string | null
+          id: string
+          notes: string | null
+          reservation_date: string
+          reserved_by: string | null
+          status: Database["public"]["Enums"]["automotive_reservation_status"]
+          tenant_id: string
+          updated_at: string
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          expiry_date?: string | null
+          id?: string
+          notes?: string | null
+          reservation_date?: string
+          reserved_by?: string | null
+          status?: Database["public"]["Enums"]["automotive_reservation_status"]
+          tenant_id: string
+          updated_at?: string
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          expiry_date?: string | null
+          id?: string
+          notes?: string | null
+          reservation_date?: string
+          reserved_by?: string | null
+          status?: Database["public"]["Enums"]["automotive_reservation_status"]
+          tenant_id?: string
+          updated_at?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automotive_reservations_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "automotive_customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automotive_reservations_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automotive_reservations_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "automotive_vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automotive_sales: {
+        Row: {
+          balance: number | null
+          created_at: string
+          customer_id: string | null
+          delivery_status: string | null
+          deposit: number | null
+          id: string
+          notes: string | null
+          payment_status: string | null
+          sale_date: string
+          sale_price: number | null
+          sales_person_id: string | null
+          tenant_id: string
+          updated_at: string
+          vehicle_id: string | null
+        }
+        Insert: {
+          balance?: number | null
+          created_at?: string
+          customer_id?: string | null
+          delivery_status?: string | null
+          deposit?: number | null
+          id?: string
+          notes?: string | null
+          payment_status?: string | null
+          sale_date?: string
+          sale_price?: number | null
+          sales_person_id?: string | null
+          tenant_id: string
+          updated_at?: string
+          vehicle_id?: string | null
+        }
+        Update: {
+          balance?: number | null
+          created_at?: string
+          customer_id?: string | null
+          delivery_status?: string | null
+          deposit?: number | null
+          id?: string
+          notes?: string | null
+          payment_status?: string | null
+          sale_date?: string
+          sale_price?: number | null
+          sales_person_id?: string | null
+          tenant_id?: string
+          updated_at?: string
+          vehicle_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automotive_sales_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "automotive_customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automotive_sales_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automotive_sales_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "automotive_vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automotive_vehicles: {
+        Row: {
+          created_at: string
+          description: string | null
+          engine: string | null
+          exterior_color: string | null
+          fuel_type: string | null
+          id: string
+          images: Json
+          interior_color: string | null
+          make: string | null
+          mileage: number | null
+          model: string | null
+          price: number | null
+          purchase_price: number | null
+          status: Database["public"]["Enums"]["automotive_vehicle_status"]
+          stock_number: string | null
+          tenant_id: string
+          transmission: string | null
+          trim: string | null
+          updated_at: string
+          vin: string
+          year: number | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          engine?: string | null
+          exterior_color?: string | null
+          fuel_type?: string | null
+          id?: string
+          images?: Json
+          interior_color?: string | null
+          make?: string | null
+          mileage?: number | null
+          model?: string | null
+          price?: number | null
+          purchase_price?: number | null
+          status?: Database["public"]["Enums"]["automotive_vehicle_status"]
+          stock_number?: string | null
+          tenant_id: string
+          transmission?: string | null
+          trim?: string | null
+          updated_at?: string
+          vin: string
+          year?: number | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          engine?: string | null
+          exterior_color?: string | null
+          fuel_type?: string | null
+          id?: string
+          images?: Json
+          interior_color?: string | null
+          make?: string | null
+          mileage?: number | null
+          model?: string | null
+          price?: number | null
+          purchase_price?: number | null
+          status?: Database["public"]["Enums"]["automotive_vehicle_status"]
+          stock_number?: string | null
+          tenant_id?: string
+          transmission?: string | null
+          trim?: string | null
+          updated_at?: string
+          vin?: string
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automotive_vehicles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_profiles: {
         Row: {
           address: string | null
@@ -654,16 +924,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_tenant_workspace: {
-        Args: {
-          _description?: string
-          _full_name?: string
-          _industry?: string
-          _name: string
-          _phone?: string
-        }
-        Returns: string
-      }
       has_permission: {
         Args: { _permission: string; _tenant_id: string; _user_id?: string }
         Returns: boolean
@@ -678,8 +938,26 @@ export type Database = {
         Returns: boolean
       }
       my_tenant_ids: { Args: { _user_id?: string }; Returns: string[] }
+      provision_tenant_workspace: {
+        Args: {
+          _description?: string
+          _full_name?: string
+          _industry?: string
+          _name: string
+          _phone?: string
+          _user_id: string
+        }
+        Returns: string
+      }
     }
     Enums: {
+      automotive_customer_status: "lead" | "customer" | "returning"
+      automotive_reservation_status:
+        | "active"
+        | "expired"
+        | "completed"
+        | "cancelled"
+      automotive_vehicle_status: "available" | "reserved" | "sold" | "incoming"
       membership_status: "active" | "invited" | "suspended"
       payment_status: "pending" | "approved" | "rejected" | "expired"
       subscription_status:
@@ -816,6 +1094,14 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      automotive_customer_status: ["lead", "customer", "returning"],
+      automotive_reservation_status: [
+        "active",
+        "expired",
+        "completed",
+        "cancelled",
+      ],
+      automotive_vehicle_status: ["available", "reserved", "sold", "incoming"],
       membership_status: ["active", "invited", "suspended"],
       payment_status: ["pending", "approved", "rejected", "expired"],
       subscription_status: [
