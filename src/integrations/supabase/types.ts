@@ -444,6 +444,54 @@ export type Database = {
           },
         ]
       }
+      module_registry: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          display_order: number
+          icon: string | null
+          id: string
+          is_active: boolean
+          is_system: boolean
+          key: string
+          metadata: Json
+          name: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_system?: boolean
+          key: string
+          metadata?: Json
+          name: string
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_system?: boolean
+          key?: string
+          metadata?: Json
+          name?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
       modules: {
         Row: {
           category: string | null
@@ -844,6 +892,57 @@ export type Database = {
           },
         ]
       }
+      tenant_module_registry: {
+        Row: {
+          configuration: Json
+          created_at: string
+          enabled_at: string | null
+          enabled_by: string | null
+          id: string
+          is_enabled: boolean
+          module_key: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          configuration?: Json
+          created_at?: string
+          enabled_at?: string | null
+          enabled_by?: string | null
+          id?: string
+          is_enabled?: boolean
+          module_key: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          configuration?: Json
+          created_at?: string
+          enabled_at?: string | null
+          enabled_by?: string | null
+          id?: string
+          is_enabled?: boolean
+          module_key?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_module_registry_module_key_fkey"
+            columns: ["module_key"]
+            isOneToOne: false
+            referencedRelation: "module_registry"
+            referencedColumns: ["key"]
+          },
+          {
+            foreignKeyName: "tenant_module_registry_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_modules: {
         Row: {
           config: Json
@@ -924,12 +1023,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_tenant_enabled_modules: {
+        Args: { _tenant_id: string }
+        Returns: {
+          category: string
+          icon: string
+          module_id: string
+          module_key: string
+          name: string
+        }[]
+      }
       has_permission: {
         Args: { _permission: string; _tenant_id: string; _user_id?: string }
         Returns: boolean
       }
       has_tenant_role: {
         Args: { _roles: string[]; _tenant_id: string; _user_id?: string }
+        Returns: boolean
+      }
+      is_module_enabled: {
+        Args: { _module_key: string; _tenant_id: string }
         Returns: boolean
       }
       is_platform_admin: { Args: { _user_id?: string }; Returns: boolean }
