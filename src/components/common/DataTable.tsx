@@ -24,7 +24,7 @@ interface DataTableProps<T> {
 }
 
 /** Lightweight, reusable table used across module pages. */
-export function DataTable<T extends Record<string, unknown>>({
+export function DataTable<T>({
   columns,
   data,
   loading = false,
@@ -61,10 +61,10 @@ export function DataTable<T extends Record<string, unknown>>({
           </TableRow>
         ) : (
           data.map((row, rowIndex) => (
-            <TableRow key={String(row["id"] ?? rowIndex)}>
+            <TableRow key={String((row as Record<string, unknown>)["id"] ?? rowIndex)}>
               {columns.map((column) => (
                 <TableCell key={column.accessor}>
-                  {column.render ? column.render(row) : String(row[column.accessor] ?? "—")}
+                  {column.render ? column.render(row) : String((row as Record<string, unknown>)[column.accessor] ?? "—")}
                 </TableCell>
               ))}
             </TableRow>

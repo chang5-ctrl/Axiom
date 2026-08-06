@@ -19,7 +19,7 @@ export interface AuthContextValue {
   refresh: () => Promise<void>;
   logout: () => Promise<void>;
   signOut: () => Promise<void>;
-  profile: { fullName: string | null; email: string | null } | null;
+  profile: { full_name: string | null; email: string | null } | null;
 }
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -103,7 +103,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         refresh: load,
         logout,
         signOut: logout,
-        profile: user ? { fullName: null, email: user.email ?? null } : null,
+        profile: user ? { full_name: null, email: user.email ?? null } : null,
       }}
     >
       {children}

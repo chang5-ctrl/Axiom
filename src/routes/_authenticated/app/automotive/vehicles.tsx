@@ -50,7 +50,7 @@ function VehiclesPage() {
       <div className="panel p-4">
         <DataTable
           columns={columns}
-          data={vehicles as unknown as Record<string, unknown>[] as AutomotiveVehicle[]}
+          data={vehicles}
           loading={isLoading}
           emptyMessage="No vehicles in inventory yet."
         />
