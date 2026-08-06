@@ -85,7 +85,7 @@ export const moduleService = {
         .order('created_at', { ascending: true }),
     );
 
-    return (rows ?? []) as (TenantModuleRegistry & { module?: ModuleRegistry | null })[;
+    return (rows ?? []) as (TenantModuleRegistry & { module?: ModuleRegistry | null })[];
   },
 
   /**
