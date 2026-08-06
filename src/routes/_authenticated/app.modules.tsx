@@ -15,7 +15,7 @@ import { moduleService } from '@/services/module.service';
 import { MODULE_CATEGORIES } from '@/config/modules';
 import type { ModuleRegistry } from '@/types/module';
 
-export const Route = createFileRoute('/_authenticated/app.modules')({
+export const Route = createFileRoute('/_authenticated/app/modules')({
   head: () => ({ meta: [{ title: 'Modules' }] }),
   component: TenantModulesPage,
 });

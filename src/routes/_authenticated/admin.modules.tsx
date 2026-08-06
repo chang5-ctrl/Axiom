@@ -23,7 +23,7 @@ import { MODULE_REGISTRY, MODULE_CATEGORIES } from '@/config/modules';
 import { useEffect } from 'react';
 import type { ModuleRegistry } from '@/types/module';
 
-export const Route = createFileRoute('/_authenticated/admin.modules')({
+export const Route = createFileRoute('/_authenticated/admin/modules')({
   head: () => ({ meta: [{ title: 'Module Registry — Admin' }] }),
   component: AdminModulesPage,
 });

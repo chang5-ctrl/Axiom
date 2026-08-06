@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { useVehicle } from "@/hooks/useAutomotive";
 import { useWorkspace } from "@/hooks/useAuth";
 
-export const Route = createFileRoute("/_authenticated/app/automotive/vehicles/$vehicleId")({ component: VehicleDetail });
+export const Route = createFileRoute("/_authenticated/app/automotive/vehicles/$id")({ component: VehicleDetail });
 
 function VehicleDetail() {
   const { vehicleId } = useParams() as { vehicleId: string };
