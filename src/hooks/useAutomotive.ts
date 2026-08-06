@@ -57,3 +57,19 @@ export function useCreateReservation(tenantId: string) {
       queryClient.invalidateQueries({ queryKey: ["automotive", tenantId, "reservations"] }),
   });
 }
+
+export function useCustomers(tenantId: string, q?: string) {
+  return useQuery({
+    queryKey: ["automotive", tenantId, "customers", q ?? ""],
+    queryFn: () => automotiveService.listCustomers(tenantId, q),
+    enabled: Boolean(tenantId),
+  });
+}
+
+export function useReservations(tenantId: string) {
+  return useQuery({
+    queryKey: ["automotive", tenantId, "reservations"],
+    queryFn: () => automotiveService.listReservations(tenantId),
+    enabled: Boolean(tenantId),
+  });
+}
