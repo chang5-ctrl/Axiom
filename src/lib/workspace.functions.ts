@@ -26,14 +26,20 @@ export const provisionWorkspace = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const { data: tenantId, error } = await supabaseAdmin.rpc("provision_tenant_workspace", {
-      _user_id: context.userId,
-      _name: data.name,
-      _description: data.description ?? undefined,
-      _industry: data.industry ?? undefined,
-      _phone: data.phone ?? undefined,
-      _full_name: data.fullName ?? undefined,
-    });
+    const args: {
+      _user_id: string;
+      _name: string;
+      _description?: string;
+      _industry?: string;
+      _phone?: string;
+      _full_name?: string;
+    } = { _user_id: context.userId, _name: data.name };
+    if (data.description) args._description = data.description;
+    if (data.industry) args._industry = data.industry;
+    if (data.phone) args._phone = data.phone;
+    if (data.fullName) args._full_name = data.fullName;
+
+    const { data: tenantId, error } = await supabaseAdmin.rpc("provision_tenant_workspace", args);
 
     if (error) {
       console.error("provision_tenant_workspace failed", error);
