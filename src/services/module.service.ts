@@ -1,4 +1,4 @@
-import { supabase, unwrap, guard } from './service-utils';
+import { supabase, unwrap, guard, unwrapOne } from './service-utils';
 import type {
   ModuleRegistry,
   ModuleRegistryInsert,
@@ -35,7 +35,7 @@ export const moduleService = {
    * Get a specific module by key.
    */
   async getModule(key: string): Promise<ModuleRegistry | null> {
-    return unwrap(
+    return unwrapOne(
       await supabase.from('module_registry').select('*').eq('key', key).maybeSingle(),
     );
   },
@@ -85,7 +85,7 @@ export const moduleService = {
         .order('created_at', { ascending: true }),
     );
 
-    return (rows ?? []) as (TenantModuleRegistry & { module?: ModuleRegistry | null })[;
+    return (rows ?? []) as (TenantModuleRegistry & { module?: ModuleRegistry | null })[];
   },
 
   /**
@@ -122,7 +122,7 @@ export const moduleService = {
       );
 
       if (existing) {
-        return unwrap(
+        return unwrapOne(
           await supabase
             .from('tenant_module_registry')
             .update({
@@ -137,7 +137,7 @@ export const moduleService = {
         );
       }
 
-      return unwrap(
+      return unwrapOne(
         await supabase
           .from('tenant_module_registry')
           .insert({
@@ -161,7 +161,7 @@ export const moduleService = {
     moduleKey: string,
   ): Promise<ServiceResult<TenantModuleRegistry>> {
     return guard(async () => {
-      return unwrap(
+      return unwrapOne(
         await supabase
           .from('tenant_module_registry')
           .update({ is_enabled: false } as TenantModuleRegistryUpdate)
@@ -182,7 +182,7 @@ export const moduleService = {
     configuration: Record<string, unknown>,
   ): Promise<ServiceResult<TenantModuleRegistry>> {
     return guard(async () => {
-      return unwrap(
+      return unwrapOne(
         await supabase
           .from('tenant_module_registry')
           .update({ configuration } as TenantModuleRegistryUpdate)
@@ -199,11 +199,11 @@ export const moduleService = {
    */
   async upsertModule(data: ModuleRegistryInsert): Promise<ServiceResult<ModuleRegistry>> {
     return guard(async () => {
-      const key = (data as Record<string, unknown>).key as string;
+      const key = (data as Record<string, unknown>)['key'] as string;
       const existing = await moduleService.getModule(key);
 
       if (existing) {
-        return unwrap(
+        return unwrapOne(
           await supabase
             .from('module_registry')
             .update(data)
@@ -213,7 +213,7 @@ export const moduleService = {
         );
       }
 
-      return unwrap(
+      return unwrapOne(
         await supabase
           .from('module_registry')
           .insert(data as any)

@@ -32,6 +32,13 @@ import { Route as AuthenticatedAppNotificationsRouteImport } from './routes/_aut
 import { Route as AuthenticatedAppProfileRouteImport } from './routes/_authenticated/app.profile'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
 import { Route as AuthenticatedAppTeamRouteImport } from './routes/_authenticated/app.team'
+import { Route as AuthenticatedAppAutomotiveIndexRouteImport } from './routes/_authenticated/app/automotive/index'
+import { Route as AuthenticatedAppAutomotiveCustomersRouteImport } from './routes/_authenticated/app/automotive/customers'
+import { Route as AuthenticatedAppAutomotiveReportsRouteImport } from './routes/_authenticated/app/automotive/reports'
+import { Route as AuthenticatedAppAutomotiveReservationsRouteImport } from './routes/_authenticated/app/automotive/reservations'
+import { Route as AuthenticatedAppAutomotiveSalesRouteImport } from './routes/_authenticated/app/automotive/sales'
+import { Route as AuthenticatedAppAutomotiveVehiclesRouteImport } from './routes/_authenticated/app/automotive/vehicles'
+import { Route as AuthenticatedAppAutomotiveVehiclesIdRouteImport } from './routes/_authenticated/app/automotive/vehicles.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -156,6 +163,48 @@ const AuthenticatedAppTeamRoute = AuthenticatedAppTeamRouteImport.update({
   path: '/team',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppAutomotiveIndexRoute =
+  AuthenticatedAppAutomotiveIndexRouteImport.update({
+    id: '/automotive/',
+    path: '/automotive/',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppAutomotiveCustomersRoute =
+  AuthenticatedAppAutomotiveCustomersRouteImport.update({
+    id: '/automotive/customers',
+    path: '/automotive/customers',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppAutomotiveReportsRoute =
+  AuthenticatedAppAutomotiveReportsRouteImport.update({
+    id: '/automotive/reports',
+    path: '/automotive/reports',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppAutomotiveReservationsRoute =
+  AuthenticatedAppAutomotiveReservationsRouteImport.update({
+    id: '/automotive/reservations',
+    path: '/automotive/reservations',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppAutomotiveSalesRoute =
+  AuthenticatedAppAutomotiveSalesRouteImport.update({
+    id: '/automotive/sales',
+    path: '/automotive/sales',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppAutomotiveVehiclesRoute =
+  AuthenticatedAppAutomotiveVehiclesRouteImport.update({
+    id: '/automotive/vehicles',
+    path: '/automotive/vehicles',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppAutomotiveVehiclesIdRoute =
+  AuthenticatedAppAutomotiveVehiclesIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAppAutomotiveVehiclesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -180,6 +229,13 @@ export interface FileRoutesByFullPath {
   '/app/team': typeof AuthenticatedAppTeamRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
+  '/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
+  '/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
+  '/app/automotive/sales': typeof AuthenticatedAppAutomotiveSalesRoute
+  '/app/automotive/vehicles': typeof AuthenticatedAppAutomotiveVehiclesRouteWithChildren
+  '/app/automotive/': typeof AuthenticatedAppAutomotiveIndexRoute
+  '/app/automotive/vehicles/$id': typeof AuthenticatedAppAutomotiveVehiclesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -202,6 +258,13 @@ export interface FileRoutesByTo {
   '/app/team': typeof AuthenticatedAppTeamRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
+  '/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
+  '/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
+  '/app/automotive/sales': typeof AuthenticatedAppAutomotiveSalesRoute
+  '/app/automotive/vehicles': typeof AuthenticatedAppAutomotiveVehiclesRouteWithChildren
+  '/app/automotive': typeof AuthenticatedAppAutomotiveIndexRoute
+  '/app/automotive/vehicles/$id': typeof AuthenticatedAppAutomotiveVehiclesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -228,6 +291,13 @@ export interface FileRoutesById {
   '/_authenticated/app/team': typeof AuthenticatedAppTeamRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
+  '/_authenticated/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
+  '/_authenticated/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
+  '/_authenticated/app/automotive/sales': typeof AuthenticatedAppAutomotiveSalesRoute
+  '/_authenticated/app/automotive/vehicles': typeof AuthenticatedAppAutomotiveVehiclesRouteWithChildren
+  '/_authenticated/app/automotive/': typeof AuthenticatedAppAutomotiveIndexRoute
+  '/_authenticated/app/automotive/vehicles/$id': typeof AuthenticatedAppAutomotiveVehiclesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -254,6 +324,13 @@ export interface FileRouteTypes {
     | '/app/team'
     | '/admin/'
     | '/app/'
+    | '/app/automotive/customers'
+    | '/app/automotive/reports'
+    | '/app/automotive/reservations'
+    | '/app/automotive/sales'
+    | '/app/automotive/vehicles'
+    | '/app/automotive/'
+    | '/app/automotive/vehicles/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +353,13 @@ export interface FileRouteTypes {
     | '/app/team'
     | '/admin'
     | '/app'
+    | '/app/automotive/customers'
+    | '/app/automotive/reports'
+    | '/app/automotive/reservations'
+    | '/app/automotive/sales'
+    | '/app/automotive/vehicles'
+    | '/app/automotive'
+    | '/app/automotive/vehicles/$id'
   id:
     | '__root__'
     | '/'
@@ -301,6 +385,13 @@ export interface FileRouteTypes {
     | '/_authenticated/app/team'
     | '/_authenticated/admin/'
     | '/_authenticated/app/'
+    | '/_authenticated/app/automotive/customers'
+    | '/_authenticated/app/automotive/reports'
+    | '/_authenticated/app/automotive/reservations'
+    | '/_authenticated/app/automotive/sales'
+    | '/_authenticated/app/automotive/vehicles'
+    | '/_authenticated/app/automotive/'
+    | '/_authenticated/app/automotive/vehicles/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -473,6 +564,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppTeamRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/automotive/': {
+      id: '/_authenticated/app/automotive/'
+      path: '/automotive'
+      fullPath: '/app/automotive/'
+      preLoaderRoute: typeof AuthenticatedAppAutomotiveIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/automotive/customers': {
+      id: '/_authenticated/app/automotive/customers'
+      path: '/automotive/customers'
+      fullPath: '/app/automotive/customers'
+      preLoaderRoute: typeof AuthenticatedAppAutomotiveCustomersRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/automotive/reports': {
+      id: '/_authenticated/app/automotive/reports'
+      path: '/automotive/reports'
+      fullPath: '/app/automotive/reports'
+      preLoaderRoute: typeof AuthenticatedAppAutomotiveReportsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/automotive/reservations': {
+      id: '/_authenticated/app/automotive/reservations'
+      path: '/automotive/reservations'
+      fullPath: '/app/automotive/reservations'
+      preLoaderRoute: typeof AuthenticatedAppAutomotiveReservationsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/automotive/sales': {
+      id: '/_authenticated/app/automotive/sales'
+      path: '/automotive/sales'
+      fullPath: '/app/automotive/sales'
+      preLoaderRoute: typeof AuthenticatedAppAutomotiveSalesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/automotive/vehicles': {
+      id: '/_authenticated/app/automotive/vehicles'
+      path: '/automotive/vehicles'
+      fullPath: '/app/automotive/vehicles'
+      preLoaderRoute: typeof AuthenticatedAppAutomotiveVehiclesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/automotive/vehicles/$id': {
+      id: '/_authenticated/app/automotive/vehicles/$id'
+      path: '/$id'
+      fullPath: '/app/automotive/vehicles/$id'
+      preLoaderRoute: typeof AuthenticatedAppAutomotiveVehiclesIdRouteImport
+      parentRoute: typeof AuthenticatedAppAutomotiveVehiclesRoute
+    }
   }
 }
 
@@ -501,6 +641,21 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
 const AuthenticatedAdminRouteWithChildren =
   AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
+interface AuthenticatedAppAutomotiveVehiclesRouteChildren {
+  AuthenticatedAppAutomotiveVehiclesIdRoute: typeof AuthenticatedAppAutomotiveVehiclesIdRoute
+}
+
+const AuthenticatedAppAutomotiveVehiclesRouteChildren: AuthenticatedAppAutomotiveVehiclesRouteChildren =
+  {
+    AuthenticatedAppAutomotiveVehiclesIdRoute:
+      AuthenticatedAppAutomotiveVehiclesIdRoute,
+  }
+
+const AuthenticatedAppAutomotiveVehiclesRouteWithChildren =
+  AuthenticatedAppAutomotiveVehiclesRoute._addFileChildren(
+    AuthenticatedAppAutomotiveVehiclesRouteChildren,
+  )
+
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppActivityRoute: typeof AuthenticatedAppActivityRoute
   AuthenticatedAppBillingRoute: typeof AuthenticatedAppBillingRoute
@@ -511,6 +666,12 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppTeamRoute: typeof AuthenticatedAppTeamRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppAutomotiveCustomersRoute: typeof AuthenticatedAppAutomotiveCustomersRoute
+  AuthenticatedAppAutomotiveReportsRoute: typeof AuthenticatedAppAutomotiveReportsRoute
+  AuthenticatedAppAutomotiveReservationsRoute: typeof AuthenticatedAppAutomotiveReservationsRoute
+  AuthenticatedAppAutomotiveSalesRoute: typeof AuthenticatedAppAutomotiveSalesRoute
+  AuthenticatedAppAutomotiveVehiclesRoute: typeof AuthenticatedAppAutomotiveVehiclesRouteWithChildren
+  AuthenticatedAppAutomotiveIndexRoute: typeof AuthenticatedAppAutomotiveIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
@@ -523,6 +684,16 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppTeamRoute: AuthenticatedAppTeamRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppAutomotiveCustomersRoute:
+    AuthenticatedAppAutomotiveCustomersRoute,
+  AuthenticatedAppAutomotiveReportsRoute:
+    AuthenticatedAppAutomotiveReportsRoute,
+  AuthenticatedAppAutomotiveReservationsRoute:
+    AuthenticatedAppAutomotiveReservationsRoute,
+  AuthenticatedAppAutomotiveSalesRoute: AuthenticatedAppAutomotiveSalesRoute,
+  AuthenticatedAppAutomotiveVehiclesRoute:
+    AuthenticatedAppAutomotiveVehiclesRouteWithChildren,
+  AuthenticatedAppAutomotiveIndexRoute: AuthenticatedAppAutomotiveIndexRoute,
 }
 
 const AuthenticatedAppRouteWithChildren =

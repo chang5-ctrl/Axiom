@@ -1,61 +1,67 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { supabase } from '@/integrations/supabase/client';
+
 import { authService } from '@/services/auth.service';
 import { tenantService } from '@/services/tenant.service';
-import { moduleService } from '@/services/module.service';
 import type { TenantMembership, TenantWorkspace } from '@/services/tenant.service';
 
-interface AuthContextType {
-  user: any | null;
+export interface AuthContextValue {
+  user: { id: string; email?: string | undefined } | null;
   loading: boolean;
+  isLoading: boolean;
+  error: string | null;
   memberships: TenantMembership[];
   membership: TenantMembership | null;
   workspace: TenantWorkspace | null;
   can: (permission: string) => boolean;
   isModuleEnabled: (moduleKey: string) => boolean;
   switchTenant: (tenantId: string) => Promise<void>;
+  refresh: () => Promise<void>;
   logout: () => Promise<void>;
+  signOut: () => Promise<void>;
+  profile: { full_name: string | null; email: string | null } | null;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<AuthContextValue['user']>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [memberships, setMemberships] = useState<TenantMembership[]>([]);
   const [membership, setMembership] = useState<TenantMembership | null>(null);
   const [workspace, setWorkspace] = useState<TenantWorkspace | null>(null);
 
-  useEffect(() => {
-    const initAuth = async () => {
-      try {
-        const currentUser = await authService.getUser();
-        setUser(currentUser);
+  const load = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const currentUser = await authService.getUser();
+      setUser(currentUser ? { id: currentUser.id, email: currentUser.email } : null);
 
-        if (currentUser) {
-          const userMemberships = await tenantService.listMemberships(currentUser.id);
-          setMemberships(userMemberships);
+      if (currentUser) {
+        const userMemberships = await tenantService.listMemberships(currentUser.id);
+        setMemberships(userMemberships);
 
-          if (userMemberships.length > 0) {
-            const defaultMembership = userMemberships[0];
-            setMembership(defaultMembership);
-            const ws = await tenantService.loadWorkspace(
-              defaultMembership.tenantId,
-              defaultMembership,
-            );
-            setWorkspace(ws);
-          }
+        const defaultMembership = userMemberships[0];
+        if (defaultMembership) {
+          setMembership(defaultMembership);
+          setWorkspace(
+            await tenantService.loadWorkspace(defaultMembership.tenantId, defaultMembership),
+          );
         }
-      } catch (error) {
-        console.error('Auth initialization failed:', error);
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : 'Unable to load your workspace');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    initAuth();
+  useEffect(() => {
+    void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const switchTenant = async (tenantId: string) => {
@@ -63,21 +69,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!targetMembership) return;
 
     setMembership(targetMembership);
-    const ws = await tenantService.loadWorkspace(tenantId, targetMembership);
-    setWorkspace(ws);
+    setWorkspace(await tenantService.loadWorkspace(tenantId, targetMembership));
   };
 
-  const can = (permission: string): boolean => {
-    return workspace?.permissions?.includes(permission) ?? false;
-  };
+  const can = (permission: string): boolean =>
+    workspace?.permissions?.includes(permission) ?? false;
 
-  const isModuleEnabled = (moduleKey: string): boolean => {
-    return workspace?.modules?.some((m) => m.module_key === moduleKey) ?? false;
-  };
+  const isModuleEnabled = (moduleKey: string): boolean =>
+    workspace?.modules?.some((m) => m.module_key === moduleKey) ?? false;
 
   const logout = async () => {
     await authService.signOut();
     setUser(null);
+    setMemberships([]);
     setMembership(null);
     setWorkspace(null);
     navigate({ to: '/login' });
@@ -88,13 +92,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user,
         loading,
+        isLoading: loading,
+        error,
         memberships,
         membership,
         workspace,
         can,
         isModuleEnabled,
         switchTenant,
+        refresh: load,
         logout,
+        signOut: logout,
+        profile: user ? { full_name: null, email: user.email ?? null } : null,
       }}
     >
       {children}
@@ -102,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useAuth(): AuthContextType {
+export function useAuth(): AuthContextValue {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');

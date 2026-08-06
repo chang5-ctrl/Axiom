@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { useWorkspace } from "@/hooks/useAuth";
 import { useVehicles } from "@/hooks/useAutomotive";
 
-export const Route = createFileRoute("/_authenticated/app/automotive")({ component: AutomotiveIndex });
+export const Route = createFileRoute("/_authenticated/app/automotive/")({ component: AutomotiveIndex });
 
 function AutomotiveIndex() {
   const { tenant } = useWorkspace();

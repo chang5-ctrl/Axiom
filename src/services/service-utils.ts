@@ -29,3 +29,13 @@ export function unwrap<T>(response: { data: T; error: { message: string } | null
 }
 
 export { supabase };
+
+/** Like `unwrap`, but also throws when the row is missing. */
+export function unwrapOne<T>(response: {
+  data: T | null;
+  error: { message: string } | null;
+}): T {
+  const data = unwrap(response);
+  if (data === null || data === undefined) throw new Error("Record not found");
+  return data;
+}
