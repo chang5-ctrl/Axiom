@@ -199,7 +199,7 @@ export const moduleService = {
    */
   async upsertModule(data: ModuleRegistryInsert): Promise<ServiceResult<ModuleRegistry>> {
     return guard(async () => {
-      const key = (data as Record<string, unknown>).key as string;
+      const key = (data as Record<string, unknown>)['key'] as string;
       const existing = await moduleService.getModule(key);
 
       if (existing) {

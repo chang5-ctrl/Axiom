@@ -18,6 +18,8 @@ export interface AuthContextValue {
   switchTenant: (tenantId: string) => Promise<void>;
   refresh: () => Promise<void>;
   logout: () => Promise<void>;
+  signOut: () => Promise<void>;
+  profile: { fullName: string | null; email: string | null } | null;
 }
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -100,6 +102,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         switchTenant,
         refresh: load,
         logout,
+        signOut: logout,
+        profile: user ? { fullName: null, email: user.email ?? null } : null,
       }}
     >
       {children}

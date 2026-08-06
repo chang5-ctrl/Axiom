@@ -12,6 +12,8 @@ import type {
   TenantModule,
 } from "@/types/core";
 
+export type { TenantMembership };
+
 export interface TenantWorkspace {
   tenant: Tenant;
   businessProfile: BusinessProfile | null;

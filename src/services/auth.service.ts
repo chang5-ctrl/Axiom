@@ -1,4 +1,5 @@
-import { guard, supabase, unwrap } from "./service-utils";
+import { guard, supabase } from "./service-utils";
+import { provisionWorkspace } from "@/lib/workspace.functions";
 import type { AuthCredentials, RegistrationInput, ServiceResult } from "@/types/core";
 
 /**
@@ -35,19 +36,17 @@ export const authService = {
         throw new Error("Check your inbox to confirm your email, then sign in.");
       }
 
-      const args: {
-        _name: string;
-        _phone?: string;
-        _description?: string;
-        _industry?: string;
-        _full_name?: string;
-      } = { _name: input.businessName, _phone: input.phone };
-      if (input.businessDescription) args._description = input.businessDescription;
-      if (input.industry) args._industry = input.industry;
-      if (input.fullName) args._full_name = input.fullName;
+      const { tenantId } = await provisionWorkspace({
+        data: {
+          name: input.businessName,
+          ...(input.phone ? { phone: input.phone } : {}),
+          ...(input.businessDescription ? { description: input.businessDescription } : {}),
+          ...(input.industry ? { industry: input.industry } : {}),
+          ...(input.fullName ? { fullName: input.fullName } : {}),
+        },
+      });
 
-      const tenantId = unwrap(await supabase.rpc("create_tenant_workspace", args));
-      return tenantId as string;
+      return tenantId;
     }, "Unable to create your workspace");
   },
 
