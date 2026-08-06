@@ -1,23 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import {
-  CallToAction,
-  Faq,
-  Features,
-  Hero,
-  LandingFooter,
-  LandingNav,
-  Pricing,
-  SupportedBusinesses,
-} from "@/components/landing/LandingSections";
-import { APP } from "@/config/app";
+import { Capabilities } from "@/components/landing/Capabilities";
+import { ClosingCta } from "@/components/landing/ClosingCta";
+import { Faq } from "@/components/landing/Faq";
+import { Hero } from "@/components/landing/Hero";
+import { HowItWorks } from "@/components/landing/HowItWorks";
+import { Industries } from "@/components/landing/Industries";
+import { LandingFooter } from "@/components/landing/LandingFooter";
+import { LandingNav } from "@/components/landing/LandingNav";
+import { Pricing } from "@/components/landing/Pricing";
+import { ProblemSection, SolutionSection } from "@/components/landing/ProblemSolution";
+import { Testimonials } from "@/components/landing/Testimonials";
+import { WorkspaceGeneration } from "@/components/landing/WorkspaceGeneration";
 import { billingService } from "@/services/billing.service";
-import type { Plan } from "@/types/core";
 
-const title = "Axiom — Modular Multi-Tenant ERP Platform";
+const title = "Axiom — AI-Powered Multi-Tenant ERP Platform";
 const description =
-  "Axiom is a modular, multi-tenant ERP platform. Isolated workspaces, dynamic roles and permissions, and modules you switch on as your business grows.";
+  "Describe your business and receive a business operating system built around your workflow. Axiom composes modules, roles and permissions into an isolated workspace for every business.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,25 +34,29 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
-  const [plans, setPlans] = useState<Plan[]>([]);
-
-  useEffect(() => {
-    billingService.listPlans().then(setPlans).catch(() => setPlans([]));
-  }, []);
+  const { data: plans = [], isLoading } = useQuery({
+    queryKey: ["public", "plans"],
+    queryFn: () => billingService.listPlans(),
+    staleTime: 5 * 60 * 1000,
+  });
 
   return (
     <div className="min-h-screen bg-background">
       <LandingNav />
       <main>
         <Hero />
-        <Features />
-        <SupportedBusinesses />
-        <Pricing plans={plans} />
+        <ProblemSection />
+        <SolutionSection />
+        <WorkspaceGeneration />
+        <Capabilities />
+        <Industries />
+        <HowItWorks />
+        <Pricing plans={plans} loading={isLoading} />
+        <Testimonials />
         <Faq />
-        <CallToAction />
+        <ClosingCta />
       </main>
       <LandingFooter />
-      <span className="sr-only">{APP.tagline}</span>
     </div>
   );
 }
