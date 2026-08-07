@@ -15,6 +15,7 @@ import { Route as DocsRouteImport } from './routes/docs'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedSuperAdminRouteImport } from './routes/_authenticated/super-admin'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppActivityRouteImport } from './routes/_authenticated/app.activity'
 import { Route as AuthenticatedAppBillingRouteImport } from './routes/_authenticated/app.billing'
@@ -59,6 +60,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSuperAdminRoute = AuthenticatedSuperAdminRouteImport.update({
+  id: '/super-admin',
+  path: '/super-admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
+  '/super-admin': typeof AuthenticatedSuperAdminRoute
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -181,6 +188,7 @@ export interface FileRoutesByTo {
   '/docs': typeof DocsRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/super-admin': typeof AuthenticatedSuperAdminRoute
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/super-admin': typeof AuthenticatedSuperAdminRoute
   '/_authenticated/app/activity': typeof AuthenticatedAppActivityRoute
   '/_authenticated/app/billing': typeof AuthenticatedAppBillingRoute
   '/_authenticated/app/business': typeof AuthenticatedAppBusinessRoute
@@ -231,6 +240,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app'
+    | '/super-admin'
     | '/app/activity'
     | '/app/billing'
     | '/app/business'
@@ -253,6 +263,7 @@ export interface FileRouteTypes {
     | '/docs'
     | '/login'
     | '/register'
+    | '/super-admin'
     | '/app/activity'
     | '/app/billing'
     | '/app/business'
@@ -277,6 +288,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/_authenticated/app'
+    | '/_authenticated/super-admin'
     | '/_authenticated/app/activity'
     | '/_authenticated/app/billing'
     | '/_authenticated/app/business'
@@ -345,6 +357,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/super-admin': {
+      id: '/_authenticated/super-admin'
+      path: '/super-admin'
+      fullPath: '/super-admin'
+      preLoaderRoute: typeof AuthenticatedSuperAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/': {
@@ -522,10 +541,12 @@ const AuthenticatedAppRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
+  AuthenticatedSuperAdminRoute: typeof AuthenticatedSuperAdminRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
+  AuthenticatedSuperAdminRoute: AuthenticatedSuperAdminRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
