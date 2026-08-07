@@ -114,7 +114,7 @@ export async function recordPlatformAudit(input: {
   tenantId?: string | null;
   entityType?: string | null;
   entityId?: string | null;
-  metadata?: Record<string, unknown>;
+  metadata?: JsonRecord | undefined;
 }): Promise<void> {
   await supabaseAdmin.from("audit_logs").insert({
     tenant_id: input.tenantId ?? null,
@@ -719,9 +719,9 @@ export async function listPlatformSubscriptions(): Promise<PlatformSubscriptionR
 /* ---------------------------------------------------------------- payments */
 
 export async function listPlatformPayments(filters: {
-  status?: string;
-  tenantId?: string;
-  limit?: number;
+  status?: string | undefined;
+  tenantId?: string | undefined;
+  limit?: number | undefined;
 }): Promise<PlatformPaymentRow[]> {
   let query = supabaseAdmin
     .from("payments")
@@ -765,7 +765,7 @@ export async function reviewPayment(input: {
   actorId: string;
   paymentId: string;
   decision: PaymentDecision;
-  notes?: string;
+  notes?: string | undefined;
 }): Promise<{ status: string }> {
   const { data: payment, error } = await supabaseAdmin
     .from("payments")
@@ -821,9 +821,9 @@ export async function reviewPayment(input: {
 /* ------------------------------------------------------------- audit / logs */
 
 export async function listPlatformAuditLogs(filters: {
-  tenantId?: string;
-  action?: string;
-  limit?: number;
+  tenantId?: string | undefined;
+  action?: string | undefined;
+  limit?: number | undefined;
 }): Promise<PlatformAuditRow[]> {
   let query = supabaseAdmin
     .from("audit_logs")
@@ -845,7 +845,7 @@ export async function listPlatformAuditLogs(filters: {
     entityType: row.entity_type,
     entityId: row.entity_id,
     actorId: row.actor_id,
-    metadata: (row.metadata ?? {}) as Record<string, unknown>,
+    metadata: (row.metadata ?? {}) as JsonRecord,
     createdAt: row.created_at,
   }));
 }
@@ -867,7 +867,7 @@ export async function listFeatureFlags(): Promise<FeatureFlag[]> {
     label: flag.label,
     description: flag.description,
     isEnabled: flag.is_enabled,
-    rollout: (flag.rollout ?? {}) as Record<string, unknown>,
+    rollout: (flag.rollout ?? {}) as JsonRecord,
     updatedAt: flag.updated_at,
     overrides: overrides
       .filter((row) => row.flag_key === flag.key)
@@ -883,7 +883,7 @@ export async function upsertFeatureFlag(input: {
   actorId: string;
   key: string;
   label: string;
-  description?: string;
+  description?: string | undefined;
   isEnabled: boolean;
 }): Promise<void> {
   const { error } = await supabaseAdmin.from("platform_feature_flags").upsert({

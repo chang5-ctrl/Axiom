@@ -1,3 +1,6 @@
+export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+export type JsonRecord = { [key: string]: JsonValue };
+
 /**
  * Platform (super admin) domain types.
  *
@@ -217,7 +220,7 @@ export interface PlatformAuditRow {
   entityType: string | null;
   entityId: string | null;
   actorId: string | null;
-  metadata: Record<string, unknown>;
+  metadata: JsonRecord;
   createdAt: string;
 }
 
@@ -226,7 +229,7 @@ export interface FeatureFlag {
   label: string;
   description: string | null;
   isEnabled: boolean;
-  rollout: Record<string, unknown>;
+  rollout: JsonRecord;
   overrides: { tenantId: string; tenantName: string; isEnabled: boolean }[];
   updatedAt: string;
 }
