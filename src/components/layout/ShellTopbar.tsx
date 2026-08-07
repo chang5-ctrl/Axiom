@@ -20,9 +20,10 @@ export interface ShellTopbarProps {
   onOpenMobileNav: () => void;
   collapseButton?: ReactNode;
   left?: ReactNode;
-  profileHref: "/app/profile" | "/admin/settings";
-  settingsHref: "/app/settings" | "/admin/settings";
-  notificationsHref?: "/app/notifications";
+  /** Route paths; cast at the Link because nav config is data, not literals. */
+  profileHref: string;
+  settingsHref: string;
+  notificationsHref?: string;
 }
 
 function initials(name?: string | null, email?: string | null): string {

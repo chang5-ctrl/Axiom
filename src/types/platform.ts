@@ -1,3 +1,6 @@
+export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+export type JsonRecord = { [key: string]: JsonValue };
+
 /**
  * Platform (super admin) domain types.
  *
@@ -22,6 +25,7 @@ export interface TenantMetrics {
   active: number;
   trialing: number;
   suspended: number;
+  premium: number;
   newLast7Days: number;
   newLast30Days: number;
   newYesterday: number;
@@ -32,17 +36,26 @@ export interface UserMetrics {
   dailyActive: number;
   monthlyActive: number;
   newLast30Days: number;
+  dailyActiveSeries: TimeSeriesPoint[];
+  monthlyActiveSeries: TimeSeriesPoint[];
 }
 
 export interface RevenueMetrics {
   currency: string;
+  mrr: number;
+  arr: number;
   monthToDate: number;
   last30Days: number;
+  yearToDate: number;
   lifetime: number;
   pendingAmount: number;
   pendingCount: number;
   collectedYesterday: number;
+  monthlySubscribers: number;
+  annualSubscribers: number;
   byMonth: TimeSeriesPoint[];
+  byPlan: MetricPoint[];
+  byIndustry: MetricPoint[];
 }
 
 export interface SubscriptionMetrics {
@@ -75,10 +88,19 @@ export interface BusinessHealthBand {
 
 export interface SystemHealth {
   databaseLatencyMs: number | null;
-  authLatencyMs: number | null;
+  apiLatencyMs: number | null;
   errorRate: number | null;
   uptimePercent: number | null;
   checkedAt: string;
+}
+
+/** A single monitored dependency. `status` is derived from real probes only. */
+export interface HealthProbe {
+  id: string;
+  label: string;
+  status: "operational" | "degraded" | "down" | "unmonitored";
+  latencyMs: number | null;
+  detail: string;
 }
 
 export interface DatabaseUsage {
@@ -95,7 +117,6 @@ export interface StorageBucketUsage {
 }
 
 export interface AiUsagePeriod {
-  /** Requests recorded for the period. Zero is a real value, not a placeholder. */
   requests: number;
   inputTokens: number;
   outputTokens: number;
@@ -113,6 +134,7 @@ export interface FounderBriefItem {
 
 export interface FounderBrief {
   forDate: string;
+  greeting: string;
   headlines: FounderBriefItem[];
   narrative: string[];
   recommendations: string[];
@@ -120,6 +142,7 @@ export interface FounderBrief {
 
 export interface PlatformSnapshot {
   generatedAt: string;
+  currency: string;
   tenants: TenantMetrics;
   users: UserMetrics;
   revenue: RevenueMetrics;
@@ -127,10 +150,13 @@ export interface PlatformSnapshot {
   modules: ModuleAdoption[];
   industries: IndustryMix[];
   health: SystemHealth;
+  probes: HealthProbe[];
   healthBands: BusinessHealthBand[];
   signups: TimeSeriesPoint[];
   activity: TimeSeriesPoint[];
   brief: FounderBrief;
+  pendingPayments: number;
+  openSupportRequests: number;
 }
 
 export interface PlatformTenantRow {
@@ -141,12 +167,25 @@ export interface PlatformTenantRow {
   industry: string | null;
   members: number;
   planName: string | null;
+  planKey: string | null;
   subscriptionStatus: string | null;
+  trialEndsAt: string | null;
   createdAt: string;
+}
+
+export interface PlatformTenantDetail {
+  tenant: PlatformTenantRow;
+  modules: { key: string; enabled: boolean }[];
+  payments: PlatformPaymentRow[];
+  audit: PlatformAuditRow[];
+  lastActivityAt: string | null;
+  /** Customer records are never exposed to platform staff by default. */
+  customerDataVisible: false;
 }
 
 export interface PlatformSubscriptionRow {
   id: string;
+  tenantId: string;
   tenantName: string;
   planName: string;
   status: string;
@@ -159,46 +198,69 @@ export interface PlatformSubscriptionRow {
 
 export interface PlatformPaymentRow {
   id: string;
+  tenantId: string;
   tenantName: string;
+  planName: string | null;
   amount: number;
   currency: string;
   status: string;
   method: string | null;
   reference: string | null;
+  receiptUrl: string | null;
+  reviewNotes: string | null;
+  notes: string | null;
   createdAt: string;
 }
 
 export interface PlatformAuditRow {
   id: string;
+  tenantId: string | null;
   tenantName: string | null;
   action: string;
   entityType: string | null;
   entityId: string | null;
   actorId: string | null;
+  metadata: JsonRecord;
   createdAt: string;
 }
 
 export interface FeatureFlag {
   key: string;
   label: string;
-  description: string;
-  enabled: boolean;
-  updatedAt: string | null;
+  description: string | null;
+  isEnabled: boolean;
+  rollout: JsonRecord;
+  overrides: { tenantId: string; tenantName: string; isEnabled: boolean }[];
+  updatedAt: string;
 }
 
 export interface PlatformAnnouncement {
   id: string;
   title: string;
   body: string;
-  audience: "all" | "owners" | "admins";
-  publishedAt: string;
+  audience: string;
+  publishedAt: string | null;
+  createdAt: string;
 }
 
 export interface SupportRequestRow {
   id: string;
-  tenantName: string;
+  tenantId: string | null;
+  tenantName: string | null;
   subject: string;
-  status: "open" | "pending" | "resolved";
-  priority: "low" | "normal" | "high";
+  body: string | null;
+  status: string;
+  priority: string;
+  createdAt: string;
+  resolvedAt: string | null;
+}
+
+export type PaymentDecision = "approve" | "reject" | "request-info";
+
+export interface PlatformNotification {
+  id: string;
+  title: string;
+  detail: string;
+  tone: "neutral" | "positive" | "warning";
   createdAt: string;
 }

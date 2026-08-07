@@ -13,5 +13,5 @@ export const ROUTES = {
   login: "/login",
   register: "/register",
   app: "/app",
-  admin: "/admin",
+  superAdmin: "/super-admin",
 } as const;

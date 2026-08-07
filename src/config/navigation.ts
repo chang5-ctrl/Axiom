@@ -17,6 +17,13 @@ import {
   UserCircle,
   Car,
   Calendar,
+  Database,
+  FileClock,
+  HardDrive,
+  HeartPulse,
+  Receipt,
+  Sparkles,
+  Sunrise,
   type LucideIcon,
 } from "lucide-react";
 
@@ -82,35 +89,63 @@ export const TENANT_NAV: NavSection[] = [
   },
 ];
 
-/** Super admin (platform) navigation. Architecture only in Phase 0. */
-export const ADMIN_NAV: NavSection[] = [
+/** Platform control-centre navigation (super admin only). */
+export const SUPER_ADMIN_NAV: NavSection[] = [
   {
-    id: "overview",
-    label: "Overview",
+    id: "command",
+    label: "Command",
     items: [
-      { to: "/admin", label: "Dashboard", icon: Gauge },
-      { to: "/admin/analytics", label: "Analytics", icon: Activity },
+      { to: "/super-admin", label: "Overview", icon: Gauge },
+      { to: "/super-admin/brief", label: "Founder Daily Brief", icon: Sunrise },
+      { to: "/super-admin/notifications", label: "Notifications", icon: Bell },
+    ],
+  },
+  {
+    id: "revenue",
+    label: "Revenue",
+    items: [
+      { to: "/super-admin/revenue", label: "Revenue", icon: BadgeDollarSign },
+      { to: "/super-admin/subscriptions", label: "Subscriptions", icon: CreditCard },
+      { to: "/super-admin/payments", label: "Pending Payments", icon: Receipt },
     ],
   },
   {
     id: "customers",
     label: "Customers",
     items: [
-      { to: "/admin/tenants", label: "Tenants", icon: Building2 },
-      { to: "/admin/subscriptions", label: "Subscriptions", icon: BadgeDollarSign },
-      { to: "/admin/payments", label: "Payments", icon: CreditCard },
-      { to: "/admin/support", label: "Support", icon: LifeBuoy },
+      { to: "/super-admin/tenants", label: "Tenants", icon: Building2 },
+      { to: "/super-admin/business-health", label: "Business Health", icon: HeartPulse },
+      { to: "/super-admin/support", label: "Support", icon: LifeBuoy },
     ],
   },
   {
-    id: "platform",
-    label: "Platform",
+    id: "analytics",
+    label: "Analytics",
     items: [
-      { to: "/admin/modules", label: "Modules", icon: Blocks },
-      { to: "/admin/feature-flags", label: "Feature Flags", icon: Flag },
-      { to: "/admin/announcements", label: "Announcements", icon: Megaphone },
-      { to: "/admin/logs", label: "Logs", icon: ScrollText },
-      { to: "/admin/settings", label: "Settings", icon: ShieldCheck },
+      { to: "/super-admin/analytics", label: "Platform Analytics", icon: Activity },
+      { to: "/super-admin/active-users", label: "Active Users", icon: Users },
+      { to: "/super-admin/modules", label: "Modules", icon: Blocks },
+      { to: "/super-admin/ai-usage", label: "AI Usage", icon: Sparkles },
+    ],
+  },
+  {
+    id: "infrastructure",
+    label: "Infrastructure",
+    items: [
+      { to: "/super-admin/system-health", label: "System Health", icon: ShieldCheck },
+      { to: "/super-admin/database", label: "Database", icon: Database },
+      { to: "/super-admin/storage", label: "Storage", icon: HardDrive },
+      { to: "/super-admin/logs", label: "Logs", icon: ScrollText },
+      { to: "/super-admin/audit-logs", label: "Audit Logs", icon: FileClock },
+    ],
+  },
+  {
+    id: "control",
+    label: "Control",
+    items: [
+      { to: "/super-admin/announcements", label: "Announcements", icon: Megaphone },
+      { to: "/super-admin/feature-flags", label: "Feature Flags", icon: Flag },
+      { to: "/super-admin/settings", label: "Settings", icon: Settings },
     ],
   },
 ];
