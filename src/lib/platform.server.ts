@@ -19,6 +19,7 @@ import type {
   FounderBrief,
   HealthProbe,
   IndustryMix,
+  JsonRecord,
   MetricPoint,
   ModuleAdoption,
   PaymentDecision,
