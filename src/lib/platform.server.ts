@@ -578,11 +578,11 @@ function buildFounderBrief(input: {
 /* ------------------------------------------------------------------ tenants */
 
 export async function listPlatformTenants(filters: {
-  search?: string;
-  status?: string;
-  industry?: string;
-  plan?: string;
-  limit?: number;
+  search?: string | undefined;
+  status?: string | undefined;
+  industry?: string | undefined;
+  plan?: string | undefined;
+  limit?: number | undefined;
 }): Promise<PlatformTenantRow[]> {
   const limit = Math.min(filters.limit ?? 200, 500);
 
