@@ -25,6 +25,10 @@ import { Route as AuthenticatedAppNotificationsRouteImport } from './routes/_aut
 import { Route as AuthenticatedAppProfileRouteImport } from './routes/_authenticated/app.profile'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
 import { Route as AuthenticatedAppTeamRouteImport } from './routes/_authenticated/app.team'
+import { Route as AuthenticatedSuperAdminIndexRouteImport } from './routes/_authenticated/super-admin.index'
+import { Route as AuthenticatedSuperAdminBriefRouteImport } from './routes/_authenticated/super-admin.brief'
+import { Route as AuthenticatedSuperAdminRevenueRouteImport } from './routes/_authenticated/super-admin.revenue'
+import { Route as AuthenticatedSuperAdminSubscriptionsRouteImport } from './routes/_authenticated/super-admin.subscriptions'
 import { Route as AuthenticatedAppAutomotiveIndexRouteImport } from './routes/_authenticated/app/automotive/index'
 import { Route as AuthenticatedAppAutomotiveCustomersRouteImport } from './routes/_authenticated/app/automotive/customers'
 import { Route as AuthenticatedAppAutomotiveReportsRouteImport } from './routes/_authenticated/app/automotive/reports'
@@ -116,6 +120,30 @@ const AuthenticatedAppTeamRoute = AuthenticatedAppTeamRouteImport.update({
   path: '/team',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedSuperAdminIndexRoute =
+  AuthenticatedSuperAdminIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSuperAdminRoute,
+  } as any)
+const AuthenticatedSuperAdminBriefRoute =
+  AuthenticatedSuperAdminBriefRouteImport.update({
+    id: '/brief',
+    path: '/brief',
+    getParentRoute: () => AuthenticatedSuperAdminRoute,
+  } as any)
+const AuthenticatedSuperAdminRevenueRoute =
+  AuthenticatedSuperAdminRevenueRouteImport.update({
+    id: '/revenue',
+    path: '/revenue',
+    getParentRoute: () => AuthenticatedSuperAdminRoute,
+  } as any)
+const AuthenticatedSuperAdminSubscriptionsRoute =
+  AuthenticatedSuperAdminSubscriptionsRouteImport.update({
+    id: '/subscriptions',
+    path: '/subscriptions',
+    getParentRoute: () => AuthenticatedSuperAdminRoute,
+  } as any)
 const AuthenticatedAppAutomotiveIndexRoute =
   AuthenticatedAppAutomotiveIndexRouteImport.update({
     id: '/automotive/',
@@ -165,7 +193,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
-  '/super-admin': typeof AuthenticatedSuperAdminRoute
+  '/super-admin': typeof AuthenticatedSuperAdminRouteWithChildren
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -174,7 +202,11 @@ export interface FileRoutesByFullPath {
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/team': typeof AuthenticatedAppTeamRoute
+  '/super-admin/brief': typeof AuthenticatedSuperAdminBriefRoute
+  '/super-admin/revenue': typeof AuthenticatedSuperAdminRevenueRoute
+  '/super-admin/subscriptions': typeof AuthenticatedSuperAdminSubscriptionsRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/super-admin/': typeof AuthenticatedSuperAdminIndexRoute
   '/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
   '/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
   '/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
@@ -188,7 +220,6 @@ export interface FileRoutesByTo {
   '/docs': typeof DocsRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/super-admin': typeof AuthenticatedSuperAdminRoute
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -197,7 +228,11 @@ export interface FileRoutesByTo {
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/team': typeof AuthenticatedAppTeamRoute
+  '/super-admin/brief': typeof AuthenticatedSuperAdminBriefRoute
+  '/super-admin/revenue': typeof AuthenticatedSuperAdminRevenueRoute
+  '/super-admin/subscriptions': typeof AuthenticatedSuperAdminSubscriptionsRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/super-admin': typeof AuthenticatedSuperAdminIndexRoute
   '/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
   '/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
   '/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
@@ -214,7 +249,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
-  '/_authenticated/super-admin': typeof AuthenticatedSuperAdminRoute
+  '/_authenticated/super-admin': typeof AuthenticatedSuperAdminRouteWithChildren
   '/_authenticated/app/activity': typeof AuthenticatedAppActivityRoute
   '/_authenticated/app/billing': typeof AuthenticatedAppBillingRoute
   '/_authenticated/app/business': typeof AuthenticatedAppBusinessRoute
@@ -223,7 +258,11 @@ export interface FileRoutesById {
   '/_authenticated/app/profile': typeof AuthenticatedAppProfileRoute
   '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/app/team': typeof AuthenticatedAppTeamRoute
+  '/_authenticated/super-admin/brief': typeof AuthenticatedSuperAdminBriefRoute
+  '/_authenticated/super-admin/revenue': typeof AuthenticatedSuperAdminRevenueRoute
+  '/_authenticated/super-admin/subscriptions': typeof AuthenticatedSuperAdminSubscriptionsRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/super-admin/': typeof AuthenticatedSuperAdminIndexRoute
   '/_authenticated/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
   '/_authenticated/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
   '/_authenticated/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
@@ -249,7 +288,11 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/team'
+    | '/super-admin/brief'
+    | '/super-admin/revenue'
+    | '/super-admin/subscriptions'
     | '/app/'
+    | '/super-admin/'
     | '/app/automotive/customers'
     | '/app/automotive/reports'
     | '/app/automotive/reservations'
@@ -263,7 +306,6 @@ export interface FileRouteTypes {
     | '/docs'
     | '/login'
     | '/register'
-    | '/super-admin'
     | '/app/activity'
     | '/app/billing'
     | '/app/business'
@@ -272,7 +314,11 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/team'
+    | '/super-admin/brief'
+    | '/super-admin/revenue'
+    | '/super-admin/subscriptions'
     | '/app'
+    | '/super-admin'
     | '/app/automotive/customers'
     | '/app/automotive/reports'
     | '/app/automotive/reservations'
@@ -297,7 +343,11 @@ export interface FileRouteTypes {
     | '/_authenticated/app/profile'
     | '/_authenticated/app/settings'
     | '/_authenticated/app/team'
+    | '/_authenticated/super-admin/brief'
+    | '/_authenticated/super-admin/revenue'
+    | '/_authenticated/super-admin/subscriptions'
     | '/_authenticated/app/'
+    | '/_authenticated/super-admin/'
     | '/_authenticated/app/automotive/customers'
     | '/_authenticated/app/automotive/reports'
     | '/_authenticated/app/automotive/reservations'
@@ -429,6 +479,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppTeamRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/super-admin/': {
+      id: '/_authenticated/super-admin/'
+      path: '/'
+      fullPath: '/super-admin/'
+      preLoaderRoute: typeof AuthenticatedSuperAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedSuperAdminRoute
+    }
+    '/_authenticated/super-admin/brief': {
+      id: '/_authenticated/super-admin/brief'
+      path: '/brief'
+      fullPath: '/super-admin/brief'
+      preLoaderRoute: typeof AuthenticatedSuperAdminBriefRouteImport
+      parentRoute: typeof AuthenticatedSuperAdminRoute
+    }
+    '/_authenticated/super-admin/revenue': {
+      id: '/_authenticated/super-admin/revenue'
+      path: '/revenue'
+      fullPath: '/super-admin/revenue'
+      preLoaderRoute: typeof AuthenticatedSuperAdminRevenueRouteImport
+      parentRoute: typeof AuthenticatedSuperAdminRoute
+    }
+    '/_authenticated/super-admin/subscriptions': {
+      id: '/_authenticated/super-admin/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/super-admin/subscriptions'
+      preLoaderRoute: typeof AuthenticatedSuperAdminSubscriptionsRouteImport
+      parentRoute: typeof AuthenticatedSuperAdminRoute
+    }
     '/_authenticated/app/automotive/': {
       id: '/_authenticated/app/automotive/'
       path: '/automotive'
@@ -539,14 +617,35 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
 const AuthenticatedAppRouteWithChildren =
   AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
 
+interface AuthenticatedSuperAdminRouteChildren {
+  AuthenticatedSuperAdminBriefRoute: typeof AuthenticatedSuperAdminBriefRoute
+  AuthenticatedSuperAdminRevenueRoute: typeof AuthenticatedSuperAdminRevenueRoute
+  AuthenticatedSuperAdminSubscriptionsRoute: typeof AuthenticatedSuperAdminSubscriptionsRoute
+  AuthenticatedSuperAdminIndexRoute: typeof AuthenticatedSuperAdminIndexRoute
+}
+
+const AuthenticatedSuperAdminRouteChildren: AuthenticatedSuperAdminRouteChildren =
+  {
+    AuthenticatedSuperAdminBriefRoute: AuthenticatedSuperAdminBriefRoute,
+    AuthenticatedSuperAdminRevenueRoute: AuthenticatedSuperAdminRevenueRoute,
+    AuthenticatedSuperAdminSubscriptionsRoute:
+      AuthenticatedSuperAdminSubscriptionsRoute,
+    AuthenticatedSuperAdminIndexRoute: AuthenticatedSuperAdminIndexRoute,
+  }
+
+const AuthenticatedSuperAdminRouteWithChildren =
+  AuthenticatedSuperAdminRoute._addFileChildren(
+    AuthenticatedSuperAdminRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
-  AuthenticatedSuperAdminRoute: typeof AuthenticatedSuperAdminRoute
+  AuthenticatedSuperAdminRoute: typeof AuthenticatedSuperAdminRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
-  AuthenticatedSuperAdminRoute: AuthenticatedSuperAdminRoute,
+  AuthenticatedSuperAdminRoute: AuthenticatedSuperAdminRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
