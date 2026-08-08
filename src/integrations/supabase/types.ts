@@ -1390,7 +1390,11 @@ export type Database = {
         Returns: boolean
       }
       has_platform_permission: {
-        Args: { _permission: string; _user_id?: string }
+        Args: { _permission: string }
+        Returns: boolean
+      }
+      has_platform_permission_for: {
+        Args: { _permission: string; _user_id: string }
         Returns: boolean
       }
       has_tenant_role: {
@@ -1402,13 +1406,13 @@ export type Database = {
         Returns: boolean
       }
       is_platform_admin: { Args: { _user_id?: string }; Returns: boolean }
-      is_platform_staff: { Args: { _user_id?: string }; Returns: boolean }
+      is_platform_staff: { Args: never; Returns: boolean }
       is_tenant_member: {
         Args: { _tenant_id: string; _user_id?: string }
         Returns: boolean
       }
       my_tenant_ids: { Args: { _user_id?: string }; Returns: string[] }
-      platform_role_key: { Args: { _user_id?: string }; Returns: string }
+      platform_role_key: { Args: never; Returns: string }
       provision_tenant_workspace: {
         Args: {
           _description?: string
