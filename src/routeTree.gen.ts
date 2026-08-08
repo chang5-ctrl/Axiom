@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SuperAdminRouteImport } from './routes/super-admin'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as SuperAdminAppRouteImport } from './routes/super-admin._app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppActivityRouteImport } from './routes/_authenticated/app.activity'
 import { Route as AuthenticatedAppBillingRouteImport } from './routes/_authenticated/app.billing'
@@ -71,6 +72,10 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const SuperAdminAppRoute = SuperAdminAppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => SuperAdminRoute,
+} as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -121,25 +126,25 @@ const AuthenticatedAppTeamRoute = AuthenticatedAppTeamRouteImport.update({
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
 const SuperAdminAppIndexRoute = SuperAdminAppIndexRouteImport.update({
-  id: '/_app/',
+  id: '/',
   path: '/',
-  getParentRoute: () => SuperAdminRoute,
+  getParentRoute: () => SuperAdminAppRoute,
 } as any)
 const SuperAdminAppBriefRoute = SuperAdminAppBriefRouteImport.update({
-  id: '/_app/brief',
+  id: '/brief',
   path: '/brief',
-  getParentRoute: () => SuperAdminRoute,
+  getParentRoute: () => SuperAdminAppRoute,
 } as any)
 const SuperAdminAppRevenueRoute = SuperAdminAppRevenueRouteImport.update({
-  id: '/_app/revenue',
+  id: '/revenue',
   path: '/revenue',
-  getParentRoute: () => SuperAdminRoute,
+  getParentRoute: () => SuperAdminAppRoute,
 } as any)
 const SuperAdminAppSubscriptionsRoute =
   SuperAdminAppSubscriptionsRouteImport.update({
-    id: '/_app/subscriptions',
+    id: '/subscriptions',
     path: '/subscriptions',
-    getParentRoute: () => SuperAdminRoute,
+    getParentRoute: () => SuperAdminAppRoute,
   } as any)
 const AuthenticatedAppAutomotiveIndexRoute =
   AuthenticatedAppAutomotiveIndexRouteImport.update({
@@ -217,6 +222,7 @@ export interface FileRoutesByTo {
   '/docs': typeof DocsRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/super-admin': typeof SuperAdminAppIndexRoute
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -229,7 +235,6 @@ export interface FileRoutesByTo {
   '/super-admin/revenue': typeof SuperAdminAppRevenueRoute
   '/super-admin/subscriptions': typeof SuperAdminAppSubscriptionsRoute
   '/app': typeof AuthenticatedAppIndexRoute
-  '/super-admin': typeof SuperAdminAppIndexRoute
   '/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
   '/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
   '/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
@@ -247,6 +252,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/super-admin': typeof SuperAdminRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/super-admin/_app': typeof SuperAdminAppRouteWithChildren
   '/_authenticated/app/activity': typeof AuthenticatedAppActivityRoute
   '/_authenticated/app/billing': typeof AuthenticatedAppBillingRoute
   '/_authenticated/app/business': typeof AuthenticatedAppBusinessRoute
@@ -303,6 +309,7 @@ export interface FileRouteTypes {
     | '/docs'
     | '/login'
     | '/register'
+    | '/super-admin'
     | '/app/activity'
     | '/app/billing'
     | '/app/business'
@@ -315,7 +322,6 @@ export interface FileRouteTypes {
     | '/super-admin/revenue'
     | '/super-admin/subscriptions'
     | '/app'
-    | '/super-admin'
     | '/app/automotive/customers'
     | '/app/automotive/reports'
     | '/app/automotive/reservations'
@@ -332,6 +338,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/super-admin'
     | '/_authenticated/app'
+    | '/super-admin/_app'
     | '/_authenticated/app/activity'
     | '/_authenticated/app/billing'
     | '/_authenticated/app/business'
@@ -414,6 +421,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/super-admin/_app': {
+      id: '/super-admin/_app'
+      path: ''
+      fullPath: '/super-admin'
+      preLoaderRoute: typeof SuperAdminAppRouteImport
+      parentRoute: typeof SuperAdminRoute
+    }
     '/_authenticated/app/': {
       id: '/_authenticated/app/'
       path: '/'
@@ -482,28 +496,28 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/super-admin/'
       preLoaderRoute: typeof SuperAdminAppIndexRouteImport
-      parentRoute: typeof SuperAdminRoute
+      parentRoute: typeof SuperAdminAppRoute
     }
     '/super-admin/_app/brief': {
       id: '/super-admin/_app/brief'
       path: '/brief'
       fullPath: '/super-admin/brief'
       preLoaderRoute: typeof SuperAdminAppBriefRouteImport
-      parentRoute: typeof SuperAdminRoute
+      parentRoute: typeof SuperAdminAppRoute
     }
     '/super-admin/_app/revenue': {
       id: '/super-admin/_app/revenue'
       path: '/revenue'
       fullPath: '/super-admin/revenue'
       preLoaderRoute: typeof SuperAdminAppRevenueRouteImport
-      parentRoute: typeof SuperAdminRoute
+      parentRoute: typeof SuperAdminAppRoute
     }
     '/super-admin/_app/subscriptions': {
       id: '/super-admin/_app/subscriptions'
       path: '/subscriptions'
       fullPath: '/super-admin/subscriptions'
       preLoaderRoute: typeof SuperAdminAppSubscriptionsRouteImport
-      parentRoute: typeof SuperAdminRoute
+      parentRoute: typeof SuperAdminAppRoute
     }
     '/_authenticated/app/automotive/': {
       id: '/_authenticated/app/automotive/'
@@ -626,18 +640,30 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface SuperAdminRouteChildren {
+interface SuperAdminAppRouteChildren {
   SuperAdminAppBriefRoute: typeof SuperAdminAppBriefRoute
   SuperAdminAppRevenueRoute: typeof SuperAdminAppRevenueRoute
   SuperAdminAppSubscriptionsRoute: typeof SuperAdminAppSubscriptionsRoute
   SuperAdminAppIndexRoute: typeof SuperAdminAppIndexRoute
 }
 
-const SuperAdminRouteChildren: SuperAdminRouteChildren = {
+const SuperAdminAppRouteChildren: SuperAdminAppRouteChildren = {
   SuperAdminAppBriefRoute: SuperAdminAppBriefRoute,
   SuperAdminAppRevenueRoute: SuperAdminAppRevenueRoute,
   SuperAdminAppSubscriptionsRoute: SuperAdminAppSubscriptionsRoute,
   SuperAdminAppIndexRoute: SuperAdminAppIndexRoute,
+}
+
+const SuperAdminAppRouteWithChildren = SuperAdminAppRoute._addFileChildren(
+  SuperAdminAppRouteChildren,
+)
+
+interface SuperAdminRouteChildren {
+  SuperAdminAppRoute: typeof SuperAdminAppRouteWithChildren
+}
+
+const SuperAdminRouteChildren: SuperAdminRouteChildren = {
+  SuperAdminAppRoute: SuperAdminAppRouteWithChildren,
 }
 
 const SuperAdminRouteWithChildren = SuperAdminRoute._addFileChildren(
