@@ -39,6 +39,7 @@ import { Route as SuperAdminAppNotificationsRouteImport } from './routes/super-a
 import { Route as SuperAdminAppPaymentsRouteImport } from './routes/super-admin._app.payments'
 import { Route as SuperAdminAppProfileRouteImport } from './routes/super-admin._app.profile'
 import { Route as SuperAdminAppRevenueRouteImport } from './routes/super-admin._app.revenue'
+import { Route as SuperAdminAppSettingsRouteImport } from './routes/super-admin._app.settings'
 import { Route as SuperAdminAppStorageRouteImport } from './routes/super-admin._app.storage'
 import { Route as SuperAdminAppSubscriptionsRouteImport } from './routes/super-admin._app.subscriptions'
 import { Route as SuperAdminAppSupportRouteImport } from './routes/super-admin._app.support'
@@ -207,6 +208,11 @@ const SuperAdminAppRevenueRoute = SuperAdminAppRevenueRouteImport.update({
   path: '/revenue',
   getParentRoute: () => SuperAdminAppRoute,
 } as any)
+const SuperAdminAppSettingsRoute = SuperAdminAppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
 const SuperAdminAppStorageRoute = SuperAdminAppStorageRouteImport.update({
   id: '/storage',
   path: '/storage',
@@ -304,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/super-admin/payments': typeof SuperAdminAppPaymentsRoute
   '/super-admin/profile': typeof SuperAdminAppProfileRoute
   '/super-admin/revenue': typeof SuperAdminAppRevenueRoute
+  '/super-admin/settings': typeof SuperAdminAppSettingsRoute
   '/super-admin/storage': typeof SuperAdminAppStorageRoute
   '/super-admin/subscriptions': typeof SuperAdminAppSubscriptionsRoute
   '/super-admin/support': typeof SuperAdminAppSupportRoute
@@ -345,6 +352,7 @@ export interface FileRoutesByTo {
   '/super-admin/payments': typeof SuperAdminAppPaymentsRoute
   '/super-admin/profile': typeof SuperAdminAppProfileRoute
   '/super-admin/revenue': typeof SuperAdminAppRevenueRoute
+  '/super-admin/settings': typeof SuperAdminAppSettingsRoute
   '/super-admin/storage': typeof SuperAdminAppStorageRoute
   '/super-admin/subscriptions': typeof SuperAdminAppSubscriptionsRoute
   '/super-admin/support': typeof SuperAdminAppSupportRoute
@@ -389,6 +397,7 @@ export interface FileRoutesById {
   '/super-admin/_app/payments': typeof SuperAdminAppPaymentsRoute
   '/super-admin/_app/profile': typeof SuperAdminAppProfileRoute
   '/super-admin/_app/revenue': typeof SuperAdminAppRevenueRoute
+  '/super-admin/_app/settings': typeof SuperAdminAppSettingsRoute
   '/super-admin/_app/storage': typeof SuperAdminAppStorageRoute
   '/super-admin/_app/subscriptions': typeof SuperAdminAppSubscriptionsRoute
   '/super-admin/_app/support': typeof SuperAdminAppSupportRoute
@@ -433,6 +442,7 @@ export interface FileRouteTypes {
     | '/super-admin/payments'
     | '/super-admin/profile'
     | '/super-admin/revenue'
+    | '/super-admin/settings'
     | '/super-admin/storage'
     | '/super-admin/subscriptions'
     | '/super-admin/support'
@@ -474,6 +484,7 @@ export interface FileRouteTypes {
     | '/super-admin/payments'
     | '/super-admin/profile'
     | '/super-admin/revenue'
+    | '/super-admin/settings'
     | '/super-admin/storage'
     | '/super-admin/subscriptions'
     | '/super-admin/support'
@@ -517,6 +528,7 @@ export interface FileRouteTypes {
     | '/super-admin/_app/payments'
     | '/super-admin/_app/profile'
     | '/super-admin/_app/revenue'
+    | '/super-admin/_app/settings'
     | '/super-admin/_app/storage'
     | '/super-admin/_app/subscriptions'
     | '/super-admin/_app/support'
@@ -754,6 +766,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminAppRevenueRouteImport
       parentRoute: typeof SuperAdminAppRoute
     }
+    '/super-admin/_app/settings': {
+      id: '/super-admin/_app/settings'
+      path: '/settings'
+      fullPath: '/super-admin/settings'
+      preLoaderRoute: typeof SuperAdminAppSettingsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
     '/super-admin/_app/storage': {
       id: '/super-admin/_app/storage'
       path: '/storage'
@@ -922,6 +941,7 @@ interface SuperAdminAppRouteChildren {
   SuperAdminAppPaymentsRoute: typeof SuperAdminAppPaymentsRoute
   SuperAdminAppProfileRoute: typeof SuperAdminAppProfileRoute
   SuperAdminAppRevenueRoute: typeof SuperAdminAppRevenueRoute
+  SuperAdminAppSettingsRoute: typeof SuperAdminAppSettingsRoute
   SuperAdminAppStorageRoute: typeof SuperAdminAppStorageRoute
   SuperAdminAppSubscriptionsRoute: typeof SuperAdminAppSubscriptionsRoute
   SuperAdminAppSupportRoute: typeof SuperAdminAppSupportRoute
@@ -942,6 +962,7 @@ const SuperAdminAppRouteChildren: SuperAdminAppRouteChildren = {
   SuperAdminAppPaymentsRoute: SuperAdminAppPaymentsRoute,
   SuperAdminAppProfileRoute: SuperAdminAppProfileRoute,
   SuperAdminAppRevenueRoute: SuperAdminAppRevenueRoute,
+  SuperAdminAppSettingsRoute: SuperAdminAppSettingsRoute,
   SuperAdminAppStorageRoute: SuperAdminAppStorageRoute,
   SuperAdminAppSubscriptionsRoute: SuperAdminAppSubscriptionsRoute,
   SuperAdminAppSupportRoute: SuperAdminAppSupportRoute,
