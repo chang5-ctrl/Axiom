@@ -17,6 +17,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SuperAdminRouteImport } from './routes/super-admin'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as SuperAdminAppRouteImport } from './routes/super-admin._app'
+import { Route as SuperAdminLoginRouteImport } from './routes/super-admin.login'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppActivityRouteImport } from './routes/_authenticated/app.activity'
 import { Route as AuthenticatedAppBillingRouteImport } from './routes/_authenticated/app.billing'
@@ -74,6 +75,11 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
 } as any)
 const SuperAdminAppRoute = SuperAdminAppRouteImport.update({
   id: '/_app',
+  getParentRoute: () => SuperAdminRoute,
+} as any)
+const SuperAdminLoginRoute = SuperAdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => SuperAdminRoute,
 } as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/super-admin': typeof SuperAdminRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
+  '/super-admin/login': typeof SuperAdminLoginRoute
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -223,6 +230,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/super-admin': typeof SuperAdminAppIndexRoute
+  '/super-admin/login': typeof SuperAdminLoginRoute
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -253,6 +261,7 @@ export interface FileRoutesById {
   '/super-admin': typeof SuperAdminRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/super-admin/_app': typeof SuperAdminAppRouteWithChildren
+  '/super-admin/login': typeof SuperAdminLoginRoute
   '/_authenticated/app/activity': typeof AuthenticatedAppActivityRoute
   '/_authenticated/app/billing': typeof AuthenticatedAppBillingRoute
   '/_authenticated/app/business': typeof AuthenticatedAppBusinessRoute
@@ -283,6 +292,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/super-admin'
     | '/app'
+    | '/super-admin/login'
     | '/app/activity'
     | '/app/billing'
     | '/app/business'
@@ -310,6 +320,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/super-admin'
+    | '/super-admin/login'
     | '/app/activity'
     | '/app/billing'
     | '/app/business'
@@ -339,6 +350,7 @@ export interface FileRouteTypes {
     | '/super-admin'
     | '/_authenticated/app'
     | '/super-admin/_app'
+    | '/super-admin/login'
     | '/_authenticated/app/activity'
     | '/_authenticated/app/billing'
     | '/_authenticated/app/business'
@@ -426,6 +438,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/super-admin'
       preLoaderRoute: typeof SuperAdminAppRouteImport
+      parentRoute: typeof SuperAdminRoute
+    }
+    '/super-admin/login': {
+      id: '/super-admin/login'
+      path: '/login'
+      fullPath: '/super-admin/login'
+      preLoaderRoute: typeof SuperAdminLoginRouteImport
       parentRoute: typeof SuperAdminRoute
     }
     '/_authenticated/app/': {
@@ -660,10 +679,12 @@ const SuperAdminAppRouteWithChildren = SuperAdminAppRoute._addFileChildren(
 
 interface SuperAdminRouteChildren {
   SuperAdminAppRoute: typeof SuperAdminAppRouteWithChildren
+  SuperAdminLoginRoute: typeof SuperAdminLoginRoute
 }
 
 const SuperAdminRouteChildren: SuperAdminRouteChildren = {
   SuperAdminAppRoute: SuperAdminAppRouteWithChildren,
+  SuperAdminLoginRoute: SuperAdminLoginRoute,
 }
 
 const SuperAdminRouteWithChildren = SuperAdminRoute._addFileChildren(
