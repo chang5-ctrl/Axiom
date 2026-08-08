@@ -7,7 +7,7 @@ import { BreakdownBars, TrendChart } from "@/components/platform/TrendChart";
 import { usePlatformSnapshot } from "@/hooks/usePlatform";
 import { formatDateTime } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/super-admin/brief")({
+export const Route = createFileRoute("/super-admin/_app/brief")({
   component: FounderBriefPage,
 });
 

@@ -7,7 +7,7 @@ import { BreakdownBars, TrendChart } from "@/components/platform/TrendChart";
 import { usePlatformSnapshot } from "@/hooks/usePlatform";
 import { formatCurrency, formatNumber } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/super-admin/revenue")({
+export const Route = createFileRoute("/super-admin/_app/revenue")({
   component: RevenuePage,
 });
 

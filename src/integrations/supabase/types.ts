@@ -742,6 +742,65 @@ export type Database = {
         }
         Relationships: []
       }
+      platform_employees: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          department: string | null
+          email: string
+          full_name: string | null
+          id: string
+          invited_by: string | null
+          is_seed: boolean
+          last_login_at: string | null
+          must_change_password: boolean
+          role_key: string
+          status: Database["public"]["Enums"]["platform_employee_status"]
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          department?: string | null
+          email: string
+          full_name?: string | null
+          id?: string
+          invited_by?: string | null
+          is_seed?: boolean
+          last_login_at?: string | null
+          must_change_password?: boolean
+          role_key: string
+          status?: Database["public"]["Enums"]["platform_employee_status"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          department?: string | null
+          email?: string
+          full_name?: string | null
+          id?: string
+          invited_by?: string | null
+          is_seed?: boolean
+          last_login_at?: string | null
+          must_change_password?: boolean
+          role_key?: string
+          status?: Database["public"]["Enums"]["platform_employee_status"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_employees_role_key_fkey"
+            columns: ["role_key"]
+            isOneToOne: false
+            referencedRelation: "platform_roles"
+            referencedColumns: ["key"]
+          },
+        ]
+      }
       platform_feature_flags: {
         Row: {
           created_at: string
@@ -768,6 +827,131 @@ export type Database = {
           key?: string
           label?: string
           rollout?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      platform_login_events: {
+        Row: {
+          created_at: string
+          email: string | null
+          employee_id: string | null
+          event: string
+          id: string
+          ip_address: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          employee_id?: string | null
+          event: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          employee_id?: string | null
+          event?: string
+          id?: string
+          ip_address?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_login_events_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "platform_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      platform_permissions: {
+        Row: {
+          action: string
+          created_at: string
+          description: string | null
+          key: string
+          module: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          description?: string | null
+          key: string
+          module: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          description?: string | null
+          key?: string
+          module?: string
+        }
+        Relationships: []
+      }
+      platform_role_permissions: {
+        Row: {
+          permission_key: string
+          role_key: string
+        }
+        Insert: {
+          permission_key: string
+          role_key: string
+        }
+        Update: {
+          permission_key?: string
+          role_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_role_permissions_permission_key_fkey"
+            columns: ["permission_key"]
+            isOneToOne: false
+            referencedRelation: "platform_permissions"
+            referencedColumns: ["key"]
+          },
+          {
+            foreignKeyName: "platform_role_permissions_role_key_fkey"
+            columns: ["role_key"]
+            isOneToOne: false
+            referencedRelation: "platform_roles"
+            referencedColumns: ["key"]
+          },
+        ]
+      }
+      platform_roles: {
+        Row: {
+          created_at: string
+          description: string | null
+          is_system: boolean
+          key: string
+          level: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          is_system?: boolean
+          key: string
+          level?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          is_system?: boolean
+          key?: string
+          level?: number
+          name?: string
           updated_at?: string
         }
         Relationships: []
@@ -1205,6 +1389,14 @@ export type Database = {
         Args: { _permission: string; _tenant_id: string; _user_id?: string }
         Returns: boolean
       }
+      has_platform_permission: {
+        Args: { _permission: string }
+        Returns: boolean
+      }
+      has_platform_permission_for: {
+        Args: { _permission: string; _user_id: string }
+        Returns: boolean
+      }
       has_tenant_role: {
         Args: { _roles: string[]; _tenant_id: string; _user_id?: string }
         Returns: boolean
@@ -1214,11 +1406,13 @@ export type Database = {
         Returns: boolean
       }
       is_platform_admin: { Args: { _user_id?: string }; Returns: boolean }
+      is_platform_staff: { Args: never; Returns: boolean }
       is_tenant_member: {
         Args: { _tenant_id: string; _user_id?: string }
         Returns: boolean
       }
       my_tenant_ids: { Args: { _user_id?: string }; Returns: string[] }
+      platform_role_key: { Args: never; Returns: string }
       provision_tenant_workspace: {
         Args: {
           _description?: string
@@ -1241,6 +1435,7 @@ export type Database = {
       automotive_vehicle_status: "available" | "reserved" | "sold" | "incoming"
       membership_status: "active" | "invited" | "suspended"
       payment_status: "pending" | "approved" | "rejected" | "expired"
+      platform_employee_status: "invited" | "active" | "suspended"
       subscription_status:
         | "trialing"
         | "active"
@@ -1385,6 +1580,7 @@ export const Constants = {
       automotive_vehicle_status: ["available", "reserved", "sold", "incoming"],
       membership_status: ["active", "invited", "suspended"],
       payment_status: ["pending", "approved", "rejected", "expired"],
+      platform_employee_status: ["invited", "active", "suspended"],
       subscription_status: [
         "trialing",
         "active",

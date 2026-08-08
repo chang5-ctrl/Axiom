@@ -14,8 +14,10 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as SuperAdminRouteImport } from './routes/super-admin'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
-import { Route as AuthenticatedSuperAdminRouteImport } from './routes/_authenticated/super-admin'
+import { Route as SuperAdminAppRouteImport } from './routes/super-admin._app'
+import { Route as SuperAdminLoginRouteImport } from './routes/super-admin.login'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppActivityRouteImport } from './routes/_authenticated/app.activity'
 import { Route as AuthenticatedAppBillingRouteImport } from './routes/_authenticated/app.billing'
@@ -25,10 +27,24 @@ import { Route as AuthenticatedAppNotificationsRouteImport } from './routes/_aut
 import { Route as AuthenticatedAppProfileRouteImport } from './routes/_authenticated/app.profile'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
 import { Route as AuthenticatedAppTeamRouteImport } from './routes/_authenticated/app.team'
-import { Route as AuthenticatedSuperAdminIndexRouteImport } from './routes/_authenticated/super-admin.index'
-import { Route as AuthenticatedSuperAdminBriefRouteImport } from './routes/_authenticated/super-admin.brief'
-import { Route as AuthenticatedSuperAdminRevenueRouteImport } from './routes/_authenticated/super-admin.revenue'
-import { Route as AuthenticatedSuperAdminSubscriptionsRouteImport } from './routes/_authenticated/super-admin.subscriptions'
+import { Route as SuperAdminAppIndexRouteImport } from './routes/super-admin._app.index'
+import { Route as SuperAdminAppAccessRouteImport } from './routes/super-admin._app.access'
+import { Route as SuperAdminAppAnnouncementsRouteImport } from './routes/super-admin._app.announcements'
+import { Route as SuperAdminAppAuditLogsRouteImport } from './routes/super-admin._app.audit-logs'
+import { Route as SuperAdminAppBriefRouteImport } from './routes/super-admin._app.brief'
+import { Route as SuperAdminAppDatabaseRouteImport } from './routes/super-admin._app.database'
+import { Route as SuperAdminAppEmployeesRouteImport } from './routes/super-admin._app.employees'
+import { Route as SuperAdminAppFeatureFlagsRouteImport } from './routes/super-admin._app.feature-flags'
+import { Route as SuperAdminAppNotificationsRouteImport } from './routes/super-admin._app.notifications'
+import { Route as SuperAdminAppPaymentsRouteImport } from './routes/super-admin._app.payments'
+import { Route as SuperAdminAppProfileRouteImport } from './routes/super-admin._app.profile'
+import { Route as SuperAdminAppRevenueRouteImport } from './routes/super-admin._app.revenue'
+import { Route as SuperAdminAppSettingsRouteImport } from './routes/super-admin._app.settings'
+import { Route as SuperAdminAppStorageRouteImport } from './routes/super-admin._app.storage'
+import { Route as SuperAdminAppSubscriptionsRouteImport } from './routes/super-admin._app.subscriptions'
+import { Route as SuperAdminAppSupportRouteImport } from './routes/super-admin._app.support'
+import { Route as SuperAdminAppSystemHealthRouteImport } from './routes/super-admin._app.system-health'
+import { Route as SuperAdminAppTenantsRouteImport } from './routes/super-admin._app.tenants'
 import { Route as AuthenticatedAppAutomotiveIndexRouteImport } from './routes/_authenticated/app/automotive/index'
 import { Route as AuthenticatedAppAutomotiveCustomersRouteImport } from './routes/_authenticated/app/automotive/customers'
 import { Route as AuthenticatedAppAutomotiveReportsRouteImport } from './routes/_authenticated/app/automotive/reports'
@@ -61,15 +77,24 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminRoute = SuperAdminRouteImport.update({
+  id: '/super-admin',
+  path: '/super-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   id: '/app',
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedSuperAdminRoute = AuthenticatedSuperAdminRouteImport.update({
-  id: '/super-admin',
-  path: '/super-admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const SuperAdminAppRoute = SuperAdminAppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => SuperAdminRoute,
+} as any)
+const SuperAdminLoginRoute = SuperAdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => SuperAdminRoute,
 } as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
@@ -120,30 +145,101 @@ const AuthenticatedAppTeamRoute = AuthenticatedAppTeamRouteImport.update({
   path: '/team',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
-const AuthenticatedSuperAdminIndexRoute =
-  AuthenticatedSuperAdminIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedSuperAdminRoute,
+const SuperAdminAppIndexRoute = SuperAdminAppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppAccessRoute = SuperAdminAppAccessRouteImport.update({
+  id: '/access',
+  path: '/access',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppAnnouncementsRoute =
+  SuperAdminAppAnnouncementsRouteImport.update({
+    id: '/announcements',
+    path: '/announcements',
+    getParentRoute: () => SuperAdminAppRoute,
   } as any)
-const AuthenticatedSuperAdminBriefRoute =
-  AuthenticatedSuperAdminBriefRouteImport.update({
-    id: '/brief',
-    path: '/brief',
-    getParentRoute: () => AuthenticatedSuperAdminRoute,
+const SuperAdminAppAuditLogsRoute = SuperAdminAppAuditLogsRouteImport.update({
+  id: '/audit-logs',
+  path: '/audit-logs',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppBriefRoute = SuperAdminAppBriefRouteImport.update({
+  id: '/brief',
+  path: '/brief',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppDatabaseRoute = SuperAdminAppDatabaseRouteImport.update({
+  id: '/database',
+  path: '/database',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppEmployeesRoute = SuperAdminAppEmployeesRouteImport.update({
+  id: '/employees',
+  path: '/employees',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppFeatureFlagsRoute =
+  SuperAdminAppFeatureFlagsRouteImport.update({
+    id: '/feature-flags',
+    path: '/feature-flags',
+    getParentRoute: () => SuperAdminAppRoute,
   } as any)
-const AuthenticatedSuperAdminRevenueRoute =
-  AuthenticatedSuperAdminRevenueRouteImport.update({
-    id: '/revenue',
-    path: '/revenue',
-    getParentRoute: () => AuthenticatedSuperAdminRoute,
+const SuperAdminAppNotificationsRoute =
+  SuperAdminAppNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => SuperAdminAppRoute,
   } as any)
-const AuthenticatedSuperAdminSubscriptionsRoute =
-  AuthenticatedSuperAdminSubscriptionsRouteImport.update({
+const SuperAdminAppPaymentsRoute = SuperAdminAppPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppProfileRoute = SuperAdminAppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppRevenueRoute = SuperAdminAppRevenueRouteImport.update({
+  id: '/revenue',
+  path: '/revenue',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppSettingsRoute = SuperAdminAppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppStorageRoute = SuperAdminAppStorageRouteImport.update({
+  id: '/storage',
+  path: '/storage',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppSubscriptionsRoute =
+  SuperAdminAppSubscriptionsRouteImport.update({
     id: '/subscriptions',
     path: '/subscriptions',
-    getParentRoute: () => AuthenticatedSuperAdminRoute,
+    getParentRoute: () => SuperAdminAppRoute,
   } as any)
+const SuperAdminAppSupportRoute = SuperAdminAppSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppSystemHealthRoute =
+  SuperAdminAppSystemHealthRouteImport.update({
+    id: '/system-health',
+    path: '/system-health',
+    getParentRoute: () => SuperAdminAppRoute,
+  } as any)
+const SuperAdminAppTenantsRoute = SuperAdminAppTenantsRouteImport.update({
+  id: '/tenants',
+  path: '/tenants',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
 const AuthenticatedAppAutomotiveIndexRoute =
   AuthenticatedAppAutomotiveIndexRouteImport.update({
     id: '/automotive/',
@@ -192,8 +288,9 @@ export interface FileRoutesByFullPath {
   '/docs': typeof DocsRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/super-admin': typeof SuperAdminRouteWithChildren
   '/app': typeof AuthenticatedAppRouteWithChildren
-  '/super-admin': typeof AuthenticatedSuperAdminRouteWithChildren
+  '/super-admin/login': typeof SuperAdminLoginRoute
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -202,11 +299,25 @@ export interface FileRoutesByFullPath {
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/team': typeof AuthenticatedAppTeamRoute
-  '/super-admin/brief': typeof AuthenticatedSuperAdminBriefRoute
-  '/super-admin/revenue': typeof AuthenticatedSuperAdminRevenueRoute
-  '/super-admin/subscriptions': typeof AuthenticatedSuperAdminSubscriptionsRoute
+  '/super-admin/access': typeof SuperAdminAppAccessRoute
+  '/super-admin/announcements': typeof SuperAdminAppAnnouncementsRoute
+  '/super-admin/audit-logs': typeof SuperAdminAppAuditLogsRoute
+  '/super-admin/brief': typeof SuperAdminAppBriefRoute
+  '/super-admin/database': typeof SuperAdminAppDatabaseRoute
+  '/super-admin/employees': typeof SuperAdminAppEmployeesRoute
+  '/super-admin/feature-flags': typeof SuperAdminAppFeatureFlagsRoute
+  '/super-admin/notifications': typeof SuperAdminAppNotificationsRoute
+  '/super-admin/payments': typeof SuperAdminAppPaymentsRoute
+  '/super-admin/profile': typeof SuperAdminAppProfileRoute
+  '/super-admin/revenue': typeof SuperAdminAppRevenueRoute
+  '/super-admin/settings': typeof SuperAdminAppSettingsRoute
+  '/super-admin/storage': typeof SuperAdminAppStorageRoute
+  '/super-admin/subscriptions': typeof SuperAdminAppSubscriptionsRoute
+  '/super-admin/support': typeof SuperAdminAppSupportRoute
+  '/super-admin/system-health': typeof SuperAdminAppSystemHealthRoute
+  '/super-admin/tenants': typeof SuperAdminAppTenantsRoute
   '/app/': typeof AuthenticatedAppIndexRoute
-  '/super-admin/': typeof AuthenticatedSuperAdminIndexRoute
+  '/super-admin/': typeof SuperAdminAppIndexRoute
   '/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
   '/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
   '/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
@@ -220,6 +331,8 @@ export interface FileRoutesByTo {
   '/docs': typeof DocsRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/super-admin': typeof SuperAdminAppIndexRoute
+  '/super-admin/login': typeof SuperAdminLoginRoute
   '/app/activity': typeof AuthenticatedAppActivityRoute
   '/app/billing': typeof AuthenticatedAppBillingRoute
   '/app/business': typeof AuthenticatedAppBusinessRoute
@@ -228,11 +341,24 @@ export interface FileRoutesByTo {
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/team': typeof AuthenticatedAppTeamRoute
-  '/super-admin/brief': typeof AuthenticatedSuperAdminBriefRoute
-  '/super-admin/revenue': typeof AuthenticatedSuperAdminRevenueRoute
-  '/super-admin/subscriptions': typeof AuthenticatedSuperAdminSubscriptionsRoute
+  '/super-admin/access': typeof SuperAdminAppAccessRoute
+  '/super-admin/announcements': typeof SuperAdminAppAnnouncementsRoute
+  '/super-admin/audit-logs': typeof SuperAdminAppAuditLogsRoute
+  '/super-admin/brief': typeof SuperAdminAppBriefRoute
+  '/super-admin/database': typeof SuperAdminAppDatabaseRoute
+  '/super-admin/employees': typeof SuperAdminAppEmployeesRoute
+  '/super-admin/feature-flags': typeof SuperAdminAppFeatureFlagsRoute
+  '/super-admin/notifications': typeof SuperAdminAppNotificationsRoute
+  '/super-admin/payments': typeof SuperAdminAppPaymentsRoute
+  '/super-admin/profile': typeof SuperAdminAppProfileRoute
+  '/super-admin/revenue': typeof SuperAdminAppRevenueRoute
+  '/super-admin/settings': typeof SuperAdminAppSettingsRoute
+  '/super-admin/storage': typeof SuperAdminAppStorageRoute
+  '/super-admin/subscriptions': typeof SuperAdminAppSubscriptionsRoute
+  '/super-admin/support': typeof SuperAdminAppSupportRoute
+  '/super-admin/system-health': typeof SuperAdminAppSystemHealthRoute
+  '/super-admin/tenants': typeof SuperAdminAppTenantsRoute
   '/app': typeof AuthenticatedAppIndexRoute
-  '/super-admin': typeof AuthenticatedSuperAdminIndexRoute
   '/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
   '/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
   '/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
@@ -248,8 +374,10 @@ export interface FileRoutesById {
   '/docs': typeof DocsRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/super-admin': typeof SuperAdminRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
-  '/_authenticated/super-admin': typeof AuthenticatedSuperAdminRouteWithChildren
+  '/super-admin/_app': typeof SuperAdminAppRouteWithChildren
+  '/super-admin/login': typeof SuperAdminLoginRoute
   '/_authenticated/app/activity': typeof AuthenticatedAppActivityRoute
   '/_authenticated/app/billing': typeof AuthenticatedAppBillingRoute
   '/_authenticated/app/business': typeof AuthenticatedAppBusinessRoute
@@ -258,11 +386,25 @@ export interface FileRoutesById {
   '/_authenticated/app/profile': typeof AuthenticatedAppProfileRoute
   '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/app/team': typeof AuthenticatedAppTeamRoute
-  '/_authenticated/super-admin/brief': typeof AuthenticatedSuperAdminBriefRoute
-  '/_authenticated/super-admin/revenue': typeof AuthenticatedSuperAdminRevenueRoute
-  '/_authenticated/super-admin/subscriptions': typeof AuthenticatedSuperAdminSubscriptionsRoute
+  '/super-admin/_app/access': typeof SuperAdminAppAccessRoute
+  '/super-admin/_app/announcements': typeof SuperAdminAppAnnouncementsRoute
+  '/super-admin/_app/audit-logs': typeof SuperAdminAppAuditLogsRoute
+  '/super-admin/_app/brief': typeof SuperAdminAppBriefRoute
+  '/super-admin/_app/database': typeof SuperAdminAppDatabaseRoute
+  '/super-admin/_app/employees': typeof SuperAdminAppEmployeesRoute
+  '/super-admin/_app/feature-flags': typeof SuperAdminAppFeatureFlagsRoute
+  '/super-admin/_app/notifications': typeof SuperAdminAppNotificationsRoute
+  '/super-admin/_app/payments': typeof SuperAdminAppPaymentsRoute
+  '/super-admin/_app/profile': typeof SuperAdminAppProfileRoute
+  '/super-admin/_app/revenue': typeof SuperAdminAppRevenueRoute
+  '/super-admin/_app/settings': typeof SuperAdminAppSettingsRoute
+  '/super-admin/_app/storage': typeof SuperAdminAppStorageRoute
+  '/super-admin/_app/subscriptions': typeof SuperAdminAppSubscriptionsRoute
+  '/super-admin/_app/support': typeof SuperAdminAppSupportRoute
+  '/super-admin/_app/system-health': typeof SuperAdminAppSystemHealthRoute
+  '/super-admin/_app/tenants': typeof SuperAdminAppTenantsRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
-  '/_authenticated/super-admin/': typeof AuthenticatedSuperAdminIndexRoute
+  '/super-admin/_app/': typeof SuperAdminAppIndexRoute
   '/_authenticated/app/automotive/customers': typeof AuthenticatedAppAutomotiveCustomersRoute
   '/_authenticated/app/automotive/reports': typeof AuthenticatedAppAutomotiveReportsRoute
   '/_authenticated/app/automotive/reservations': typeof AuthenticatedAppAutomotiveReservationsRoute
@@ -278,8 +420,9 @@ export interface FileRouteTypes {
     | '/docs'
     | '/login'
     | '/register'
-    | '/app'
     | '/super-admin'
+    | '/app'
+    | '/super-admin/login'
     | '/app/activity'
     | '/app/billing'
     | '/app/business'
@@ -288,9 +431,23 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/team'
+    | '/super-admin/access'
+    | '/super-admin/announcements'
+    | '/super-admin/audit-logs'
     | '/super-admin/brief'
+    | '/super-admin/database'
+    | '/super-admin/employees'
+    | '/super-admin/feature-flags'
+    | '/super-admin/notifications'
+    | '/super-admin/payments'
+    | '/super-admin/profile'
     | '/super-admin/revenue'
+    | '/super-admin/settings'
+    | '/super-admin/storage'
     | '/super-admin/subscriptions'
+    | '/super-admin/support'
+    | '/super-admin/system-health'
+    | '/super-admin/tenants'
     | '/app/'
     | '/super-admin/'
     | '/app/automotive/customers'
@@ -306,6 +463,8 @@ export interface FileRouteTypes {
     | '/docs'
     | '/login'
     | '/register'
+    | '/super-admin'
+    | '/super-admin/login'
     | '/app/activity'
     | '/app/billing'
     | '/app/business'
@@ -314,11 +473,24 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/team'
+    | '/super-admin/access'
+    | '/super-admin/announcements'
+    | '/super-admin/audit-logs'
     | '/super-admin/brief'
+    | '/super-admin/database'
+    | '/super-admin/employees'
+    | '/super-admin/feature-flags'
+    | '/super-admin/notifications'
+    | '/super-admin/payments'
+    | '/super-admin/profile'
     | '/super-admin/revenue'
+    | '/super-admin/settings'
+    | '/super-admin/storage'
     | '/super-admin/subscriptions'
+    | '/super-admin/support'
+    | '/super-admin/system-health'
+    | '/super-admin/tenants'
     | '/app'
-    | '/super-admin'
     | '/app/automotive/customers'
     | '/app/automotive/reports'
     | '/app/automotive/reservations'
@@ -333,8 +505,10 @@ export interface FileRouteTypes {
     | '/docs'
     | '/login'
     | '/register'
+    | '/super-admin'
     | '/_authenticated/app'
-    | '/_authenticated/super-admin'
+    | '/super-admin/_app'
+    | '/super-admin/login'
     | '/_authenticated/app/activity'
     | '/_authenticated/app/billing'
     | '/_authenticated/app/business'
@@ -343,11 +517,25 @@ export interface FileRouteTypes {
     | '/_authenticated/app/profile'
     | '/_authenticated/app/settings'
     | '/_authenticated/app/team'
-    | '/_authenticated/super-admin/brief'
-    | '/_authenticated/super-admin/revenue'
-    | '/_authenticated/super-admin/subscriptions'
+    | '/super-admin/_app/access'
+    | '/super-admin/_app/announcements'
+    | '/super-admin/_app/audit-logs'
+    | '/super-admin/_app/brief'
+    | '/super-admin/_app/database'
+    | '/super-admin/_app/employees'
+    | '/super-admin/_app/feature-flags'
+    | '/super-admin/_app/notifications'
+    | '/super-admin/_app/payments'
+    | '/super-admin/_app/profile'
+    | '/super-admin/_app/revenue'
+    | '/super-admin/_app/settings'
+    | '/super-admin/_app/storage'
+    | '/super-admin/_app/subscriptions'
+    | '/super-admin/_app/support'
+    | '/super-admin/_app/system-health'
+    | '/super-admin/_app/tenants'
     | '/_authenticated/app/'
-    | '/_authenticated/super-admin/'
+    | '/super-admin/_app/'
     | '/_authenticated/app/automotive/customers'
     | '/_authenticated/app/automotive/reports'
     | '/_authenticated/app/automotive/reservations'
@@ -363,6 +551,7 @@ export interface RootRouteChildren {
   DocsRoute: typeof DocsRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  SuperAdminRoute: typeof SuperAdminRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -402,6 +591,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin': {
+      id: '/super-admin'
+      path: '/super-admin'
+      fullPath: '/super-admin'
+      preLoaderRoute: typeof SuperAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/app': {
       id: '/_authenticated/app'
       path: '/app'
@@ -409,12 +605,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/super-admin': {
-      id: '/_authenticated/super-admin'
-      path: '/super-admin'
+    '/super-admin/_app': {
+      id: '/super-admin/_app'
+      path: ''
       fullPath: '/super-admin'
-      preLoaderRoute: typeof AuthenticatedSuperAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof SuperAdminAppRouteImport
+      parentRoute: typeof SuperAdminRoute
+    }
+    '/super-admin/login': {
+      id: '/super-admin/login'
+      path: '/login'
+      fullPath: '/super-admin/login'
+      preLoaderRoute: typeof SuperAdminLoginRouteImport
+      parentRoute: typeof SuperAdminRoute
     }
     '/_authenticated/app/': {
       id: '/_authenticated/app/'
@@ -479,33 +682,131 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppTeamRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
-    '/_authenticated/super-admin/': {
-      id: '/_authenticated/super-admin/'
+    '/super-admin/_app/': {
+      id: '/super-admin/_app/'
       path: '/'
       fullPath: '/super-admin/'
-      preLoaderRoute: typeof AuthenticatedSuperAdminIndexRouteImport
-      parentRoute: typeof AuthenticatedSuperAdminRoute
+      preLoaderRoute: typeof SuperAdminAppIndexRouteImport
+      parentRoute: typeof SuperAdminAppRoute
     }
-    '/_authenticated/super-admin/brief': {
-      id: '/_authenticated/super-admin/brief'
+    '/super-admin/_app/access': {
+      id: '/super-admin/_app/access'
+      path: '/access'
+      fullPath: '/super-admin/access'
+      preLoaderRoute: typeof SuperAdminAppAccessRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/announcements': {
+      id: '/super-admin/_app/announcements'
+      path: '/announcements'
+      fullPath: '/super-admin/announcements'
+      preLoaderRoute: typeof SuperAdminAppAnnouncementsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/audit-logs': {
+      id: '/super-admin/_app/audit-logs'
+      path: '/audit-logs'
+      fullPath: '/super-admin/audit-logs'
+      preLoaderRoute: typeof SuperAdminAppAuditLogsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/brief': {
+      id: '/super-admin/_app/brief'
       path: '/brief'
       fullPath: '/super-admin/brief'
-      preLoaderRoute: typeof AuthenticatedSuperAdminBriefRouteImport
-      parentRoute: typeof AuthenticatedSuperAdminRoute
+      preLoaderRoute: typeof SuperAdminAppBriefRouteImport
+      parentRoute: typeof SuperAdminAppRoute
     }
-    '/_authenticated/super-admin/revenue': {
-      id: '/_authenticated/super-admin/revenue'
+    '/super-admin/_app/database': {
+      id: '/super-admin/_app/database'
+      path: '/database'
+      fullPath: '/super-admin/database'
+      preLoaderRoute: typeof SuperAdminAppDatabaseRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/employees': {
+      id: '/super-admin/_app/employees'
+      path: '/employees'
+      fullPath: '/super-admin/employees'
+      preLoaderRoute: typeof SuperAdminAppEmployeesRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/feature-flags': {
+      id: '/super-admin/_app/feature-flags'
+      path: '/feature-flags'
+      fullPath: '/super-admin/feature-flags'
+      preLoaderRoute: typeof SuperAdminAppFeatureFlagsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/notifications': {
+      id: '/super-admin/_app/notifications'
+      path: '/notifications'
+      fullPath: '/super-admin/notifications'
+      preLoaderRoute: typeof SuperAdminAppNotificationsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/payments': {
+      id: '/super-admin/_app/payments'
+      path: '/payments'
+      fullPath: '/super-admin/payments'
+      preLoaderRoute: typeof SuperAdminAppPaymentsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/profile': {
+      id: '/super-admin/_app/profile'
+      path: '/profile'
+      fullPath: '/super-admin/profile'
+      preLoaderRoute: typeof SuperAdminAppProfileRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/revenue': {
+      id: '/super-admin/_app/revenue'
       path: '/revenue'
       fullPath: '/super-admin/revenue'
-      preLoaderRoute: typeof AuthenticatedSuperAdminRevenueRouteImport
-      parentRoute: typeof AuthenticatedSuperAdminRoute
+      preLoaderRoute: typeof SuperAdminAppRevenueRouteImport
+      parentRoute: typeof SuperAdminAppRoute
     }
-    '/_authenticated/super-admin/subscriptions': {
-      id: '/_authenticated/super-admin/subscriptions'
+    '/super-admin/_app/settings': {
+      id: '/super-admin/_app/settings'
+      path: '/settings'
+      fullPath: '/super-admin/settings'
+      preLoaderRoute: typeof SuperAdminAppSettingsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/storage': {
+      id: '/super-admin/_app/storage'
+      path: '/storage'
+      fullPath: '/super-admin/storage'
+      preLoaderRoute: typeof SuperAdminAppStorageRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/subscriptions': {
+      id: '/super-admin/_app/subscriptions'
       path: '/subscriptions'
       fullPath: '/super-admin/subscriptions'
-      preLoaderRoute: typeof AuthenticatedSuperAdminSubscriptionsRouteImport
-      parentRoute: typeof AuthenticatedSuperAdminRoute
+      preLoaderRoute: typeof SuperAdminAppSubscriptionsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/support': {
+      id: '/super-admin/_app/support'
+      path: '/support'
+      fullPath: '/super-admin/support'
+      preLoaderRoute: typeof SuperAdminAppSupportRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/system-health': {
+      id: '/super-admin/_app/system-health'
+      path: '/system-health'
+      fullPath: '/super-admin/system-health'
+      preLoaderRoute: typeof SuperAdminAppSystemHealthRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/tenants': {
+      id: '/super-admin/_app/tenants'
+      path: '/tenants'
+      fullPath: '/super-admin/tenants'
+      preLoaderRoute: typeof SuperAdminAppTenantsRouteImport
+      parentRoute: typeof SuperAdminAppRoute
     }
     '/_authenticated/app/automotive/': {
       id: '/_authenticated/app/automotive/'
@@ -617,39 +918,76 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
 const AuthenticatedAppRouteWithChildren =
   AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
 
-interface AuthenticatedSuperAdminRouteChildren {
-  AuthenticatedSuperAdminBriefRoute: typeof AuthenticatedSuperAdminBriefRoute
-  AuthenticatedSuperAdminRevenueRoute: typeof AuthenticatedSuperAdminRevenueRoute
-  AuthenticatedSuperAdminSubscriptionsRoute: typeof AuthenticatedSuperAdminSubscriptionsRoute
-  AuthenticatedSuperAdminIndexRoute: typeof AuthenticatedSuperAdminIndexRoute
-}
-
-const AuthenticatedSuperAdminRouteChildren: AuthenticatedSuperAdminRouteChildren =
-  {
-    AuthenticatedSuperAdminBriefRoute: AuthenticatedSuperAdminBriefRoute,
-    AuthenticatedSuperAdminRevenueRoute: AuthenticatedSuperAdminRevenueRoute,
-    AuthenticatedSuperAdminSubscriptionsRoute:
-      AuthenticatedSuperAdminSubscriptionsRoute,
-    AuthenticatedSuperAdminIndexRoute: AuthenticatedSuperAdminIndexRoute,
-  }
-
-const AuthenticatedSuperAdminRouteWithChildren =
-  AuthenticatedSuperAdminRoute._addFileChildren(
-    AuthenticatedSuperAdminRouteChildren,
-  )
-
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
-  AuthenticatedSuperAdminRoute: typeof AuthenticatedSuperAdminRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
-  AuthenticatedSuperAdminRoute: AuthenticatedSuperAdminRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface SuperAdminAppRouteChildren {
+  SuperAdminAppAccessRoute: typeof SuperAdminAppAccessRoute
+  SuperAdminAppAnnouncementsRoute: typeof SuperAdminAppAnnouncementsRoute
+  SuperAdminAppAuditLogsRoute: typeof SuperAdminAppAuditLogsRoute
+  SuperAdminAppBriefRoute: typeof SuperAdminAppBriefRoute
+  SuperAdminAppDatabaseRoute: typeof SuperAdminAppDatabaseRoute
+  SuperAdminAppEmployeesRoute: typeof SuperAdminAppEmployeesRoute
+  SuperAdminAppFeatureFlagsRoute: typeof SuperAdminAppFeatureFlagsRoute
+  SuperAdminAppNotificationsRoute: typeof SuperAdminAppNotificationsRoute
+  SuperAdminAppPaymentsRoute: typeof SuperAdminAppPaymentsRoute
+  SuperAdminAppProfileRoute: typeof SuperAdminAppProfileRoute
+  SuperAdminAppRevenueRoute: typeof SuperAdminAppRevenueRoute
+  SuperAdminAppSettingsRoute: typeof SuperAdminAppSettingsRoute
+  SuperAdminAppStorageRoute: typeof SuperAdminAppStorageRoute
+  SuperAdminAppSubscriptionsRoute: typeof SuperAdminAppSubscriptionsRoute
+  SuperAdminAppSupportRoute: typeof SuperAdminAppSupportRoute
+  SuperAdminAppSystemHealthRoute: typeof SuperAdminAppSystemHealthRoute
+  SuperAdminAppTenantsRoute: typeof SuperAdminAppTenantsRoute
+  SuperAdminAppIndexRoute: typeof SuperAdminAppIndexRoute
+}
+
+const SuperAdminAppRouteChildren: SuperAdminAppRouteChildren = {
+  SuperAdminAppAccessRoute: SuperAdminAppAccessRoute,
+  SuperAdminAppAnnouncementsRoute: SuperAdminAppAnnouncementsRoute,
+  SuperAdminAppAuditLogsRoute: SuperAdminAppAuditLogsRoute,
+  SuperAdminAppBriefRoute: SuperAdminAppBriefRoute,
+  SuperAdminAppDatabaseRoute: SuperAdminAppDatabaseRoute,
+  SuperAdminAppEmployeesRoute: SuperAdminAppEmployeesRoute,
+  SuperAdminAppFeatureFlagsRoute: SuperAdminAppFeatureFlagsRoute,
+  SuperAdminAppNotificationsRoute: SuperAdminAppNotificationsRoute,
+  SuperAdminAppPaymentsRoute: SuperAdminAppPaymentsRoute,
+  SuperAdminAppProfileRoute: SuperAdminAppProfileRoute,
+  SuperAdminAppRevenueRoute: SuperAdminAppRevenueRoute,
+  SuperAdminAppSettingsRoute: SuperAdminAppSettingsRoute,
+  SuperAdminAppStorageRoute: SuperAdminAppStorageRoute,
+  SuperAdminAppSubscriptionsRoute: SuperAdminAppSubscriptionsRoute,
+  SuperAdminAppSupportRoute: SuperAdminAppSupportRoute,
+  SuperAdminAppSystemHealthRoute: SuperAdminAppSystemHealthRoute,
+  SuperAdminAppTenantsRoute: SuperAdminAppTenantsRoute,
+  SuperAdminAppIndexRoute: SuperAdminAppIndexRoute,
+}
+
+const SuperAdminAppRouteWithChildren = SuperAdminAppRoute._addFileChildren(
+  SuperAdminAppRouteChildren,
+)
+
+interface SuperAdminRouteChildren {
+  SuperAdminAppRoute: typeof SuperAdminAppRouteWithChildren
+  SuperAdminLoginRoute: typeof SuperAdminLoginRoute
+}
+
+const SuperAdminRouteChildren: SuperAdminRouteChildren = {
+  SuperAdminAppRoute: SuperAdminAppRouteWithChildren,
+  SuperAdminLoginRoute: SuperAdminLoginRoute,
+}
+
+const SuperAdminRouteWithChildren = SuperAdminRoute._addFileChildren(
+  SuperAdminRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -657,6 +995,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocsRoute: DocsRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  SuperAdminRoute: SuperAdminRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -10,7 +10,7 @@ import { usePlatformSnapshot, usePlatformSubscriptions } from "@/hooks/usePlatfo
 import { formatCurrency, formatDate, formatNumber, titleCase } from "@/lib/format";
 import type { PlatformSubscriptionRow } from "@/types/platform";
 
-export const Route = createFileRoute("/_authenticated/super-admin/subscriptions")({
+export const Route = createFileRoute("/super-admin/_app/subscriptions")({
   component: SubscriptionsPage,
 });
 
