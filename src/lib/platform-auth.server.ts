@@ -268,11 +268,16 @@ export async function updateEmployee(input: {
     throw new Error("You cannot change your own platform role or status");
   }
 
-  const patch: Record<string, unknown> = {};
-  if (input.roleKey !== undefined) patch['role_key'] = input.roleKey;
-  if (input.status !== undefined) patch['status'] = input.status;
-  if (input.department !== undefined) patch['department'] = input.department;
-  if (input.fullName !== undefined) patch['full_name'] = input.fullName;
+  const patch: {
+    role_key?: string;
+    status?: PlatformEmployeeStatus;
+    department?: string | null;
+    full_name?: string | null;
+  } = {};
+  if (input.roleKey !== undefined) patch.role_key = input.roleKey;
+  if (input.status !== undefined) patch.status = input.status;
+  if (input.department !== undefined) patch.department = input.department;
+  if (input.fullName !== undefined) patch.full_name = input.fullName;
   if (Object.keys(patch).length === 0) {
     const roles = await loadRoles();
     return mapEmployee(target, roles.find((r) => r.key === target.role_key)?.name ?? target.role_key);
