@@ -22,7 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePlatformSnapshot, useStorageUsage } from "@/hooks/usePlatform";
 import { formatCurrency, formatNumber, formatPercent } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/super-admin/")({
+export const Route = createFileRoute("/super-admin/_app/")({
   component: PlatformOverview,
 });
 
