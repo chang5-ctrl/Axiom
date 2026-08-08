@@ -28,6 +28,7 @@ import { Route as AuthenticatedAppProfileRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
 import { Route as AuthenticatedAppTeamRouteImport } from './routes/_authenticated/app.team'
 import { Route as SuperAdminAppIndexRouteImport } from './routes/super-admin._app.index'
+import { Route as SuperAdminAppAccessRouteImport } from './routes/super-admin._app.access'
 import { Route as SuperAdminAppAnnouncementsRouteImport } from './routes/super-admin._app.announcements'
 import { Route as SuperAdminAppAuditLogsRouteImport } from './routes/super-admin._app.audit-logs'
 import { Route as SuperAdminAppBriefRouteImport } from './routes/super-admin._app.brief'
@@ -145,6 +146,11 @@ const AuthenticatedAppTeamRoute = AuthenticatedAppTeamRouteImport.update({
 const SuperAdminAppIndexRoute = SuperAdminAppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppAccessRoute = SuperAdminAppAccessRouteImport.update({
+  id: '/access',
+  path: '/access',
   getParentRoute: () => SuperAdminAppRoute,
 } as any)
 const SuperAdminAppAnnouncementsRoute =
@@ -281,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/team': typeof AuthenticatedAppTeamRoute
+  '/super-admin/access': typeof SuperAdminAppAccessRoute
   '/super-admin/announcements': typeof SuperAdminAppAnnouncementsRoute
   '/super-admin/audit-logs': typeof SuperAdminAppAuditLogsRoute
   '/super-admin/brief': typeof SuperAdminAppBriefRoute
@@ -320,6 +327,7 @@ export interface FileRoutesByTo {
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/team': typeof AuthenticatedAppTeamRoute
+  '/super-admin/access': typeof SuperAdminAppAccessRoute
   '/super-admin/announcements': typeof SuperAdminAppAnnouncementsRoute
   '/super-admin/audit-logs': typeof SuperAdminAppAuditLogsRoute
   '/super-admin/brief': typeof SuperAdminAppBriefRoute
@@ -362,6 +370,7 @@ export interface FileRoutesById {
   '/_authenticated/app/profile': typeof AuthenticatedAppProfileRoute
   '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/app/team': typeof AuthenticatedAppTeamRoute
+  '/super-admin/_app/access': typeof SuperAdminAppAccessRoute
   '/super-admin/_app/announcements': typeof SuperAdminAppAnnouncementsRoute
   '/super-admin/_app/audit-logs': typeof SuperAdminAppAuditLogsRoute
   '/super-admin/_app/brief': typeof SuperAdminAppBriefRoute
@@ -404,6 +413,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/team'
+    | '/super-admin/access'
     | '/super-admin/announcements'
     | '/super-admin/audit-logs'
     | '/super-admin/brief'
@@ -443,6 +453,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/team'
+    | '/super-admin/access'
     | '/super-admin/announcements'
     | '/super-admin/audit-logs'
     | '/super-admin/brief'
@@ -484,6 +495,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/profile'
     | '/_authenticated/app/settings'
     | '/_authenticated/app/team'
+    | '/super-admin/_app/access'
     | '/super-admin/_app/announcements'
     | '/super-admin/_app/audit-logs'
     | '/super-admin/_app/brief'
@@ -651,6 +663,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/super-admin/'
       preLoaderRoute: typeof SuperAdminAppIndexRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/access': {
+      id: '/super-admin/_app/access'
+      path: '/access'
+      fullPath: '/super-admin/access'
+      preLoaderRoute: typeof SuperAdminAppAccessRouteImport
       parentRoute: typeof SuperAdminAppRoute
     }
     '/super-admin/_app/announcements': {
@@ -873,6 +892,7 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface SuperAdminAppRouteChildren {
+  SuperAdminAppAccessRoute: typeof SuperAdminAppAccessRoute
   SuperAdminAppAnnouncementsRoute: typeof SuperAdminAppAnnouncementsRoute
   SuperAdminAppAuditLogsRoute: typeof SuperAdminAppAuditLogsRoute
   SuperAdminAppBriefRoute: typeof SuperAdminAppBriefRoute
@@ -891,6 +911,7 @@ interface SuperAdminAppRouteChildren {
 }
 
 const SuperAdminAppRouteChildren: SuperAdminAppRouteChildren = {
+  SuperAdminAppAccessRoute: SuperAdminAppAccessRoute,
   SuperAdminAppAnnouncementsRoute: SuperAdminAppAnnouncementsRoute,
   SuperAdminAppAuditLogsRoute: SuperAdminAppAuditLogsRoute,
   SuperAdminAppBriefRoute: SuperAdminAppBriefRoute,
