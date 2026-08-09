@@ -64,7 +64,7 @@ export const getPlatformSnapshot = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.overview.view");
     return platform.loadPlatformSnapshot();
   });
 
@@ -73,7 +73,7 @@ export const getPlatformTenants = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => tenantFiltersSchema.parse(data ?? {}))
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.tenants.view");
     return platform.listPlatformTenants(data);
   });
 
@@ -82,7 +82,7 @@ export const getPlatformTenantDetail = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => z.object({ tenantId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.tenants.view");
     return platform.loadTenantDetail(data.tenantId);
   });
 
@@ -90,7 +90,7 @@ export const getPlatformSubscriptions = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.subscriptions.view");
     return platform.listPlatformSubscriptions();
   });
 
@@ -101,7 +101,7 @@ export const getPlatformPayments = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.payments.view");
     return platform.listPlatformPayments(data);
   });
 
@@ -110,7 +110,7 @@ export const reviewPlatformPayment = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => paymentReviewSchema.parse(data))
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.payments.review");
     return platform.reviewPayment({ ...data, actorId: context.userId });
   });
 
@@ -127,7 +127,7 @@ export const getPlatformAuditLogs = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.audit.view");
     return platform.listPlatformAuditLogs(data);
   });
 
@@ -135,7 +135,7 @@ export const getFeatureFlags = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.flags.view");
     return platform.listFeatureFlags();
   });
 
@@ -144,7 +144,7 @@ export const saveFeatureFlag = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => flagSchema.parse(data))
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.flags.manage");
     await platform.upsertFeatureFlag({ ...data, actorId: context.userId });
     return { ok: true };
   });
@@ -154,7 +154,7 @@ export const saveTenantFeatureFlag = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => tenantFlagSchema.parse(data))
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.flags.manage");
     await platform.setTenantFeatureFlag({ ...data, actorId: context.userId });
     return { ok: true };
   });
@@ -163,7 +163,7 @@ export const getAnnouncements = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.announcements.view");
     return platform.listAnnouncements();
   });
 
@@ -172,7 +172,7 @@ export const publishAnnouncement = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => announcementSchema.parse(data))
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.announcements.manage");
     await platform.createAnnouncement({ ...data, actorId: context.userId });
     return { ok: true };
   });
@@ -184,7 +184,7 @@ export const getSupportRequests = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.support.view");
     return platform.listSupportRequests(data.status);
   });
 
@@ -193,7 +193,7 @@ export const updateSupportStatus = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => supportUpdateSchema.parse(data))
   .handler(async ({ data, context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.support.manage");
     await platform.updateSupportRequest({ ...data, actorId: context.userId });
     return { ok: true };
   });
@@ -202,7 +202,7 @@ export const getDatabaseUsage = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.database.view");
     return platform.loadDatabaseUsage();
   });
 
@@ -210,7 +210,7 @@ export const getStorageUsage = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.storage.view");
     return platform.loadStorageUsage();
   });
 
@@ -218,7 +218,7 @@ export const getAiUsage = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.ai.view");
     return platform.loadAiUsage();
   });
 
@@ -226,6 +226,6 @@ export const getPlatformNotifications = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const platform = await import("@/lib/platform.server");
-    await platform.assertPlatformAdmin(context.supabase, context.userId);
+    await platform.assertPlatformAccess(context.userId, "platform.notifications.view");
     return platform.loadPlatformNotifications();
   });
