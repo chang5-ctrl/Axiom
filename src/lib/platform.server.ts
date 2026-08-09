@@ -99,7 +99,38 @@ export async function assertPlatformAdmin(supabase: UserClient, userId: string):
   if (!data) throw new Error("Forbidden: platform administrators only");
 }
 
+/**
+ * Authorises a platform control-centre read or action.
+ *
+ * Platform staff identity lives in `platform_employees` with database-backed
+ * permissions (Milestone 1), so authorisation is a permission check rather than
+ * a role string. The legacy `platform_admins` table is still honoured as a
+ * break-glass list for bootstrap accounts.
+ */
+export async function assertPlatformAccess(userId: string, permission: string): Promise<void> {
+  const { resolvePlatformSession } = await import("@/lib/platform-auth.server");
+  const session = await resolvePlatformSession(userId);
+  if (session.isStaff && session.permissions.includes(permission)) return;
+
+  const { data } = await supabaseAdmin
+    .from("platform_admins")
+    .select("user_id")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (data) return;
+
+  throw new Error(
+    session.isStaff
+      ? `Forbidden: missing permission ${permission}`
+      : "Forbidden: platform staff access required",
+  );
+}
+
 export async function isPlatformAdmin(supabase: UserClient, userId: string): Promise<boolean> {
+  const { resolvePlatformSession } = await import("@/lib/platform-auth.server");
+  const session = await resolvePlatformSession(userId);
+  if (session.isStaff) return true;
+
   const { data } = await supabase
     .from("platform_admins")
     .select("user_id")
@@ -107,6 +138,7 @@ export async function isPlatformAdmin(supabase: UserClient, userId: string): Pro
     .maybeSingle();
   return Boolean(data);
 }
+
 
 /** Records an immutable audit entry for an administrative action. */
 export async function recordPlatformAudit(input: {
