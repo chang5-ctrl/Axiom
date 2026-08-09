@@ -46,7 +46,7 @@ function PlatformBusinesses() {
         eyebrow="Customers"
         title="Businesses"
         description="Segment the workspace base by lifecycle, plan tier and industry."
-        action={
+        actions={
           <Button asChild variant="outline" size="sm">
             <Link to="/super-admin/tenants">Open workspace directory</Link>
           </Button>

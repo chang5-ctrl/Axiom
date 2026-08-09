@@ -207,7 +207,7 @@ function PlatformOverview() {
         <SectionCard
           title="Business health"
           description="Derived from workspace activity"
-          action={
+          actions={
             <span className="text-xs text-muted-foreground">
               Stickiness {formatPercent(data?.users.stickiness ?? null, 0)}
             </span>
@@ -260,7 +260,7 @@ function PlatformOverview() {
         <SectionCard
           title="AI usage"
           description="Workspace generation and assistant traffic"
-          action={<Bot className="size-4 text-muted-foreground" />}
+          actions={<Bot className="size-4 text-muted-foreground" />}
         >
           <UsageMeter
             items={(ai.data?.byFeature ?? []).map((point) => ({
@@ -282,7 +282,7 @@ function PlatformOverview() {
         <SectionCard
           title="Storage usage"
           description="Provisioned buckets"
-          action={<HardDrive className="size-4 text-muted-foreground" />}
+          actions={<HardDrive className="size-4 text-muted-foreground" />}
         >
           <UsageMeter
             items={(storage.data ?? []).map((bucket) => ({
@@ -306,7 +306,7 @@ function PlatformOverview() {
         <SectionCard
           title="Notifications"
           description="Signals that need an operator"
-          action={<Bell className="size-4 text-muted-foreground" />}
+          actions={<Bell className="size-4 text-muted-foreground" />}
         >
           <NotificationList
             notifications={notifications.data}
