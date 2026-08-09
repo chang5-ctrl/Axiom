@@ -21,7 +21,7 @@ export const Route = createFileRoute("/super-admin/_app/businesses")({
       },
     ],
   }),
-  component: PlatformBusinesses;
+  component: PlatformBusinesses,
 });
 
 function PlatformBusinesses() {
