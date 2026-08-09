@@ -29,11 +29,14 @@ import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAppTeamRouteImport } from './routes/_authenticated/app.team'
 import { Route as SuperAdminAppIndexRouteImport } from './routes/super-admin._app.index'
 import { Route as SuperAdminAppAccessRouteImport } from './routes/super-admin._app.access'
+import { Route as SuperAdminAppAiUsageRouteImport } from './routes/super-admin._app.ai-usage'
 import { Route as SuperAdminAppAnnouncementsRouteImport } from './routes/super-admin._app.announcements'
 import { Route as SuperAdminAppAuditLogsRouteImport } from './routes/super-admin._app.audit-logs'
 import { Route as SuperAdminAppBriefRouteImport } from './routes/super-admin._app.brief'
+import { Route as SuperAdminAppBusinessesRouteImport } from './routes/super-admin._app.businesses'
 import { Route as SuperAdminAppDatabaseRouteImport } from './routes/super-admin._app.database'
 import { Route as SuperAdminAppEmployeesRouteImport } from './routes/super-admin._app.employees'
+import { Route as SuperAdminAppEngagementRouteImport } from './routes/super-admin._app.engagement'
 import { Route as SuperAdminAppFeatureFlagsRouteImport } from './routes/super-admin._app.feature-flags'
 import { Route as SuperAdminAppNotificationsRouteImport } from './routes/super-admin._app.notifications'
 import { Route as SuperAdminAppPaymentsRouteImport } from './routes/super-admin._app.payments'
@@ -155,6 +158,11 @@ const SuperAdminAppAccessRoute = SuperAdminAppAccessRouteImport.update({
   path: '/access',
   getParentRoute: () => SuperAdminAppRoute,
 } as any)
+const SuperAdminAppAiUsageRoute = SuperAdminAppAiUsageRouteImport.update({
+  id: '/ai-usage',
+  path: '/ai-usage',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
 const SuperAdminAppAnnouncementsRoute =
   SuperAdminAppAnnouncementsRouteImport.update({
     id: '/announcements',
@@ -171,6 +179,11 @@ const SuperAdminAppBriefRoute = SuperAdminAppBriefRouteImport.update({
   path: '/brief',
   getParentRoute: () => SuperAdminAppRoute,
 } as any)
+const SuperAdminAppBusinessesRoute = SuperAdminAppBusinessesRouteImport.update({
+  id: '/businesses',
+  path: '/businesses',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
 const SuperAdminAppDatabaseRoute = SuperAdminAppDatabaseRouteImport.update({
   id: '/database',
   path: '/database',
@@ -179,6 +192,11 @@ const SuperAdminAppDatabaseRoute = SuperAdminAppDatabaseRouteImport.update({
 const SuperAdminAppEmployeesRoute = SuperAdminAppEmployeesRouteImport.update({
   id: '/employees',
   path: '/employees',
+  getParentRoute: () => SuperAdminAppRoute,
+} as any)
+const SuperAdminAppEngagementRoute = SuperAdminAppEngagementRouteImport.update({
+  id: '/engagement',
+  path: '/engagement',
   getParentRoute: () => SuperAdminAppRoute,
 } as any)
 const SuperAdminAppFeatureFlagsRoute =
@@ -300,11 +318,14 @@ export interface FileRoutesByFullPath {
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/team': typeof AuthenticatedAppTeamRoute
   '/super-admin/access': typeof SuperAdminAppAccessRoute
+  '/super-admin/ai-usage': typeof SuperAdminAppAiUsageRoute
   '/super-admin/announcements': typeof SuperAdminAppAnnouncementsRoute
   '/super-admin/audit-logs': typeof SuperAdminAppAuditLogsRoute
   '/super-admin/brief': typeof SuperAdminAppBriefRoute
+  '/super-admin/businesses': typeof SuperAdminAppBusinessesRoute
   '/super-admin/database': typeof SuperAdminAppDatabaseRoute
   '/super-admin/employees': typeof SuperAdminAppEmployeesRoute
+  '/super-admin/engagement': typeof SuperAdminAppEngagementRoute
   '/super-admin/feature-flags': typeof SuperAdminAppFeatureFlagsRoute
   '/super-admin/notifications': typeof SuperAdminAppNotificationsRoute
   '/super-admin/payments': typeof SuperAdminAppPaymentsRoute
@@ -342,11 +363,14 @@ export interface FileRoutesByTo {
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/team': typeof AuthenticatedAppTeamRoute
   '/super-admin/access': typeof SuperAdminAppAccessRoute
+  '/super-admin/ai-usage': typeof SuperAdminAppAiUsageRoute
   '/super-admin/announcements': typeof SuperAdminAppAnnouncementsRoute
   '/super-admin/audit-logs': typeof SuperAdminAppAuditLogsRoute
   '/super-admin/brief': typeof SuperAdminAppBriefRoute
+  '/super-admin/businesses': typeof SuperAdminAppBusinessesRoute
   '/super-admin/database': typeof SuperAdminAppDatabaseRoute
   '/super-admin/employees': typeof SuperAdminAppEmployeesRoute
+  '/super-admin/engagement': typeof SuperAdminAppEngagementRoute
   '/super-admin/feature-flags': typeof SuperAdminAppFeatureFlagsRoute
   '/super-admin/notifications': typeof SuperAdminAppNotificationsRoute
   '/super-admin/payments': typeof SuperAdminAppPaymentsRoute
@@ -387,11 +411,14 @@ export interface FileRoutesById {
   '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/app/team': typeof AuthenticatedAppTeamRoute
   '/super-admin/_app/access': typeof SuperAdminAppAccessRoute
+  '/super-admin/_app/ai-usage': typeof SuperAdminAppAiUsageRoute
   '/super-admin/_app/announcements': typeof SuperAdminAppAnnouncementsRoute
   '/super-admin/_app/audit-logs': typeof SuperAdminAppAuditLogsRoute
   '/super-admin/_app/brief': typeof SuperAdminAppBriefRoute
+  '/super-admin/_app/businesses': typeof SuperAdminAppBusinessesRoute
   '/super-admin/_app/database': typeof SuperAdminAppDatabaseRoute
   '/super-admin/_app/employees': typeof SuperAdminAppEmployeesRoute
+  '/super-admin/_app/engagement': typeof SuperAdminAppEngagementRoute
   '/super-admin/_app/feature-flags': typeof SuperAdminAppFeatureFlagsRoute
   '/super-admin/_app/notifications': typeof SuperAdminAppNotificationsRoute
   '/super-admin/_app/payments': typeof SuperAdminAppPaymentsRoute
@@ -432,11 +459,14 @@ export interface FileRouteTypes {
     | '/app/settings'
     | '/app/team'
     | '/super-admin/access'
+    | '/super-admin/ai-usage'
     | '/super-admin/announcements'
     | '/super-admin/audit-logs'
     | '/super-admin/brief'
+    | '/super-admin/businesses'
     | '/super-admin/database'
     | '/super-admin/employees'
+    | '/super-admin/engagement'
     | '/super-admin/feature-flags'
     | '/super-admin/notifications'
     | '/super-admin/payments'
@@ -474,11 +504,14 @@ export interface FileRouteTypes {
     | '/app/settings'
     | '/app/team'
     | '/super-admin/access'
+    | '/super-admin/ai-usage'
     | '/super-admin/announcements'
     | '/super-admin/audit-logs'
     | '/super-admin/brief'
+    | '/super-admin/businesses'
     | '/super-admin/database'
     | '/super-admin/employees'
+    | '/super-admin/engagement'
     | '/super-admin/feature-flags'
     | '/super-admin/notifications'
     | '/super-admin/payments'
@@ -518,11 +551,14 @@ export interface FileRouteTypes {
     | '/_authenticated/app/settings'
     | '/_authenticated/app/team'
     | '/super-admin/_app/access'
+    | '/super-admin/_app/ai-usage'
     | '/super-admin/_app/announcements'
     | '/super-admin/_app/audit-logs'
     | '/super-admin/_app/brief'
+    | '/super-admin/_app/businesses'
     | '/super-admin/_app/database'
     | '/super-admin/_app/employees'
+    | '/super-admin/_app/engagement'
     | '/super-admin/_app/feature-flags'
     | '/super-admin/_app/notifications'
     | '/super-admin/_app/payments'
@@ -696,6 +732,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminAppAccessRouteImport
       parentRoute: typeof SuperAdminAppRoute
     }
+    '/super-admin/_app/ai-usage': {
+      id: '/super-admin/_app/ai-usage'
+      path: '/ai-usage'
+      fullPath: '/super-admin/ai-usage'
+      preLoaderRoute: typeof SuperAdminAppAiUsageRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
     '/super-admin/_app/announcements': {
       id: '/super-admin/_app/announcements'
       path: '/announcements'
@@ -717,6 +760,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuperAdminAppBriefRouteImport
       parentRoute: typeof SuperAdminAppRoute
     }
+    '/super-admin/_app/businesses': {
+      id: '/super-admin/_app/businesses'
+      path: '/businesses'
+      fullPath: '/super-admin/businesses'
+      preLoaderRoute: typeof SuperAdminAppBusinessesRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
     '/super-admin/_app/database': {
       id: '/super-admin/_app/database'
       path: '/database'
@@ -729,6 +779,13 @@ declare module '@tanstack/react-router' {
       path: '/employees'
       fullPath: '/super-admin/employees'
       preLoaderRoute: typeof SuperAdminAppEmployeesRouteImport
+      parentRoute: typeof SuperAdminAppRoute
+    }
+    '/super-admin/_app/engagement': {
+      id: '/super-admin/_app/engagement'
+      path: '/engagement'
+      fullPath: '/super-admin/engagement'
+      preLoaderRoute: typeof SuperAdminAppEngagementRouteImport
       parentRoute: typeof SuperAdminAppRoute
     }
     '/super-admin/_app/feature-flags': {
@@ -931,11 +988,14 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface SuperAdminAppRouteChildren {
   SuperAdminAppAccessRoute: typeof SuperAdminAppAccessRoute
+  SuperAdminAppAiUsageRoute: typeof SuperAdminAppAiUsageRoute
   SuperAdminAppAnnouncementsRoute: typeof SuperAdminAppAnnouncementsRoute
   SuperAdminAppAuditLogsRoute: typeof SuperAdminAppAuditLogsRoute
   SuperAdminAppBriefRoute: typeof SuperAdminAppBriefRoute
+  SuperAdminAppBusinessesRoute: typeof SuperAdminAppBusinessesRoute
   SuperAdminAppDatabaseRoute: typeof SuperAdminAppDatabaseRoute
   SuperAdminAppEmployeesRoute: typeof SuperAdminAppEmployeesRoute
+  SuperAdminAppEngagementRoute: typeof SuperAdminAppEngagementRoute
   SuperAdminAppFeatureFlagsRoute: typeof SuperAdminAppFeatureFlagsRoute
   SuperAdminAppNotificationsRoute: typeof SuperAdminAppNotificationsRoute
   SuperAdminAppPaymentsRoute: typeof SuperAdminAppPaymentsRoute
@@ -952,11 +1012,14 @@ interface SuperAdminAppRouteChildren {
 
 const SuperAdminAppRouteChildren: SuperAdminAppRouteChildren = {
   SuperAdminAppAccessRoute: SuperAdminAppAccessRoute,
+  SuperAdminAppAiUsageRoute: SuperAdminAppAiUsageRoute,
   SuperAdminAppAnnouncementsRoute: SuperAdminAppAnnouncementsRoute,
   SuperAdminAppAuditLogsRoute: SuperAdminAppAuditLogsRoute,
   SuperAdminAppBriefRoute: SuperAdminAppBriefRoute,
+  SuperAdminAppBusinessesRoute: SuperAdminAppBusinessesRoute,
   SuperAdminAppDatabaseRoute: SuperAdminAppDatabaseRoute,
   SuperAdminAppEmployeesRoute: SuperAdminAppEmployeesRoute,
+  SuperAdminAppEngagementRoute: SuperAdminAppEngagementRoute,
   SuperAdminAppFeatureFlagsRoute: SuperAdminAppFeatureFlagsRoute,
   SuperAdminAppNotificationsRoute: SuperAdminAppNotificationsRoute,
   SuperAdminAppPaymentsRoute: SuperAdminAppPaymentsRoute,
@@ -1000,13 +1063,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

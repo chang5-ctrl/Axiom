@@ -99,7 +99,38 @@ export async function assertPlatformAdmin(supabase: UserClient, userId: string):
   if (!data) throw new Error("Forbidden: platform administrators only");
 }
 
+/**
+ * Authorises a platform control-centre read or action.
+ *
+ * Platform staff identity lives in `platform_employees` with database-backed
+ * permissions (Milestone 1), so authorisation is a permission check rather than
+ * a role string. The legacy `platform_admins` table is still honoured as a
+ * break-glass list for bootstrap accounts.
+ */
+export async function assertPlatformAccess(userId: string, permission: string): Promise<void> {
+  const { resolvePlatformSession } = await import("@/lib/platform-auth.server");
+  const session = await resolvePlatformSession(userId);
+  if (session.isStaff && session.permissions.includes(permission)) return;
+
+  const { data } = await supabaseAdmin
+    .from("platform_admins")
+    .select("user_id")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (data) return;
+
+  throw new Error(
+    session.isStaff
+      ? `Forbidden: missing permission ${permission}`
+      : "Forbidden: platform staff access required",
+  );
+}
+
 export async function isPlatformAdmin(supabase: UserClient, userId: string): Promise<boolean> {
+  const { resolvePlatformSession } = await import("@/lib/platform-auth.server");
+  const session = await resolvePlatformSession(userId);
+  if (session.isStaff) return true;
+
   const { data } = await supabase
     .from("platform_admins")
     .select("user_id")
@@ -107,6 +138,7 @@ export async function isPlatformAdmin(supabase: UserClient, userId: string): Pro
     .maybeSingle();
   return Boolean(data);
 }
+
 
 /** Records an immutable audit entry for an administrative action. */
 export async function recordPlatformAudit(input: {
@@ -243,14 +275,21 @@ export async function loadPlatformSnapshot(): Promise<PlatformSnapshot> {
     ).size || (index === dailyActiveSeries.length - 1 ? monthlyActive : 0),
   }));
 
+  const previousDailyActive = dailyActiveSeries.at(-2)?.value ?? 0;
+  const latestDailyActive = dailyActiveSeries.at(-1)?.value ?? 0;
+
   const userMetrics = {
     total: uniqueUsers.size,
-    dailyActive: dailyActiveSeries.at(-1)?.value ?? 0,
+    dailyActive: latestDailyActive,
     monthlyActive,
     newLast30Days: memberships.filter((row) => new Date(row.created_at).getTime() >= since30).length,
     dailyActiveSeries,
     monthlyActiveSeries,
+    // Stickiness (DAU/MAU) is only meaningful once activity has been recorded.
+    stickiness: monthlyActive > 0 ? (latestDailyActive / monthlyActive) * 100 : null,
+    dailyActiveChange: latestDailyActive - previousDailyActive,
   };
+
 
   /* revenue ------------------------------------------------------------- */
   const approved = payments.filter((row) => row.status === "approved");
@@ -293,11 +332,25 @@ export async function loadPlatformSnapshot(): Promise<PlatformSnapshot> {
     revenueByIndustry.set(label, (revenueByIndustry.get(label) ?? 0) + Number(payment.amount ?? 0));
   }
 
+  const previousMonthStart = new Date(
+    Date.UTC(monthStart.getUTCFullYear(), monthStart.getUTCMonth() - 1, 1),
+  );
+  const monthToDate = sum(approved.filter((row) => new Date(row.created_at) >= monthStart));
+  const previousMonth = sum(
+    approved.filter((row) => {
+      const stamp = new Date(row.created_at);
+      return stamp >= previousMonthStart && stamp < monthStart;
+    }),
+  );
+
   const revenue = {
     currency,
     mrr,
     arr: mrr * 12,
-    monthToDate: sum(approved.filter((row) => new Date(row.created_at) >= monthStart)),
+    monthToDate,
+    previousMonth,
+    // Growth is null until there is a prior month to compare against.
+    monthOverMonthPercent: previousMonth > 0 ? ((monthToDate - previousMonth) / previousMonth) * 100 : null,
     last30Days: sum(approved.filter((row) => new Date(row.created_at).getTime() >= since30)),
     yearToDate: sum(approved.filter((row) => new Date(row.created_at) >= yearStart)),
     lifetime: sum(approved),
@@ -306,6 +359,7 @@ export async function loadPlatformSnapshot(): Promise<PlatformSnapshot> {
     collectedYesterday: sum(approved.filter((row) => dayKey(row.created_at) === yesterday)),
     monthlySubscribers: activeSubs.filter((row) => row.billing_cycle !== "yearly").length,
     annualSubscribers: activeSubs.filter((row) => row.billing_cycle === "yearly").length,
+
     byMonth: [...revenueByMonth.entries()]
       .sort(([a], [b]) => a.localeCompare(b))
       .slice(-12)

@@ -1,5 +1,7 @@
 import {
+  Activity,
   BadgeDollarSign,
+  Bot,
   Bell,
   Building2,
   CreditCard,
@@ -35,6 +37,7 @@ export const PLATFORM_NAV: NavSection[] = [
     items: [
       { to: "/super-admin", label: "Overview", icon: Gauge, permission: "platform.overview.view" },
       { to: "/super-admin/brief", label: "Founder Daily Brief", icon: Sunrise, permission: "platform.brief.view" },
+      { to: "/super-admin/engagement", label: "Engagement", icon: Activity, permission: "platform.overview.view" },
       { to: "/super-admin/notifications", label: "Notifications", icon: Bell, permission: "platform.notifications.view" },
     ],
   },
@@ -51,6 +54,7 @@ export const PLATFORM_NAV: NavSection[] = [
     id: "customers",
     label: "Customers",
     items: [
+      { to: "/super-admin/businesses", label: "Businesses", icon: Building2, permission: "platform.tenants.view" },
       { to: "/super-admin/tenants", label: "Workspaces", icon: Building2, permission: "platform.tenants.view" },
       { to: "/super-admin/support", label: "Support", icon: LifeBuoy, permission: "platform.support.view" },
     ],
@@ -61,6 +65,7 @@ export const PLATFORM_NAV: NavSection[] = [
     items: [
       { to: "/super-admin/system-health", label: "System Health", icon: ShieldCheck, permission: "platform.health.view" },
       { to: "/super-admin/database", label: "Database", icon: Database, permission: "platform.database.view" },
+      { to: "/super-admin/ai-usage", label: "AI Usage", icon: Bot, permission: "platform.ai.view" },
       { to: "/super-admin/storage", label: "Storage", icon: HardDrive, permission: "platform.storage.view" },
       { to: "/super-admin/audit-logs", label: "Audit Logs", icon: FileClock, permission: "platform.audit.view" },
     ],
