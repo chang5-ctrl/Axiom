@@ -38,6 +38,10 @@ export interface UserMetrics {
   newLast30Days: number;
   dailyActiveSeries: TimeSeriesPoint[];
   monthlyActiveSeries: TimeSeriesPoint[];
+  /** DAU/MAU stickiness percentage; null until activity is recorded. */
+  stickiness: number | null;
+  /** Day-over-day change in daily active users. */
+  dailyActiveChange: number;
 }
 
 export interface RevenueMetrics {
@@ -45,6 +49,9 @@ export interface RevenueMetrics {
   mrr: number;
   arr: number;
   monthToDate: number;
+  previousMonth: number;
+  /** Month-over-month collection growth; null without a comparable month. */
+  monthOverMonthPercent: number | null;
   last30Days: number;
   yearToDate: number;
   lifetime: number;
@@ -57,6 +64,7 @@ export interface RevenueMetrics {
   byPlan: MetricPoint[];
   byIndustry: MetricPoint[];
 }
+
 
 export interface SubscriptionMetrics {
   total: number;
