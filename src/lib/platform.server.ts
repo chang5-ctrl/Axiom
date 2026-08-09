@@ -332,11 +332,25 @@ export async function loadPlatformSnapshot(): Promise<PlatformSnapshot> {
     revenueByIndustry.set(label, (revenueByIndustry.get(label) ?? 0) + Number(payment.amount ?? 0));
   }
 
+  const previousMonthStart = new Date(
+    Date.UTC(monthStart.getUTCFullYear(), monthStart.getUTCMonth() - 1, 1),
+  );
+  const monthToDate = sum(approved.filter((row) => new Date(row.created_at) >= monthStart));
+  const previousMonth = sum(
+    approved.filter((row) => {
+      const stamp = new Date(row.created_at);
+      return stamp >= previousMonthStart && stamp < monthStart;
+    }),
+  );
+
   const revenue = {
     currency,
     mrr,
     arr: mrr * 12,
-    monthToDate: sum(approved.filter((row) => new Date(row.created_at) >= monthStart)),
+    monthToDate,
+    previousMonth,
+    // Growth is null until there is a prior month to compare against.
+    monthOverMonthPercent: previousMonth > 0 ? ((monthToDate - previousMonth) / previousMonth) * 100 : null,
     last30Days: sum(approved.filter((row) => new Date(row.created_at).getTime() >= since30)),
     yearToDate: sum(approved.filter((row) => new Date(row.created_at) >= yearStart)),
     lifetime: sum(approved),
@@ -345,6 +359,7 @@ export async function loadPlatformSnapshot(): Promise<PlatformSnapshot> {
     collectedYesterday: sum(approved.filter((row) => dayKey(row.created_at) === yesterday)),
     monthlySubscribers: activeSubs.filter((row) => row.billing_cycle !== "yearly").length,
     annualSubscribers: activeSubs.filter((row) => row.billing_cycle === "yearly").length,
+
     byMonth: [...revenueByMonth.entries()]
       .sort(([a], [b]) => a.localeCompare(b))
       .slice(-12)
