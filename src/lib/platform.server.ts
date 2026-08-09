@@ -275,14 +275,21 @@ export async function loadPlatformSnapshot(): Promise<PlatformSnapshot> {
     ).size || (index === dailyActiveSeries.length - 1 ? monthlyActive : 0),
   }));
 
+  const previousDailyActive = dailyActiveSeries.at(-2)?.value ?? 0;
+  const latestDailyActive = dailyActiveSeries.at(-1)?.value ?? 0;
+
   const userMetrics = {
     total: uniqueUsers.size,
-    dailyActive: dailyActiveSeries.at(-1)?.value ?? 0,
+    dailyActive: latestDailyActive,
     monthlyActive,
     newLast30Days: memberships.filter((row) => new Date(row.created_at).getTime() >= since30).length,
     dailyActiveSeries,
     monthlyActiveSeries,
+    // Stickiness (DAU/MAU) is only meaningful once activity has been recorded.
+    stickiness: monthlyActive > 0 ? (latestDailyActive / monthlyActive) * 100 : null,
+    dailyActiveChange: latestDailyActive - previousDailyActive,
   };
+
 
   /* revenue ------------------------------------------------------------- */
   const approved = payments.filter((row) => row.status === "approved");
