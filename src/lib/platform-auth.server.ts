@@ -89,10 +89,11 @@ export async function resolvePlatformSession(
     .eq("user_id", userId)
     .maybeSingle();
   if (error) throw new Error(error.message);
-
+  if (!row) return empty;
 
   const roles = await loadRoles();
-  const role = roles.find((item) => item.key === row!.role_key) ?? null;
+  const role = roles.find((item) => item.key === row.role_key) ?? null;
+
   const permissions = row.status === "active" ? await loadPermissionsForRole(row.role_key) : [];
 
   return {
