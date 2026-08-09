@@ -12,9 +12,9 @@ import { APP } from "@/config/app";
 import { authService } from "@/services/auth.service";
 import type { RegistrationInput } from "@/types/core";
 
-const title = "Create your workspace — Axiom";
+const title = "Create your workspace — Rocdwels AI";
 const description =
-  "Register your business on Axiom and get an isolated, modular ERP workspace in minutes.";
+  "Register your business on Rocdwels AI and get an isolated, modular ERP workspace in minutes.";
 
 export const Route = createFileRoute("/register")({
   head: () => ({
