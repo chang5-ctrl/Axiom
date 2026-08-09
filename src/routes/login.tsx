@@ -9,8 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authService } from "@/services/auth.service";
 
-const title = "Sign in — Axiom";
-const description = "Sign in to your Axiom workspace to manage your business.";
+const title = "Sign in — Rocdwels AI";
+const description = "Sign in to your Rocdwels AI workspace to manage your business.";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -70,7 +70,7 @@ function LoginPage() {
             </Button>
           </form>
           <p className="text-sm text-muted-foreground">
-            New to Axiom?{" "}
+            New to Rocdwels AI?{" "}
             <Link to="/register" className="font-medium text-primary hover:underline">
               Create a workspace
             </Link>

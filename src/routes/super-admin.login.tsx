@@ -1,6 +1,6 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ShieldCheck } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
 import { Logo } from "@/components/brand/Logo";
@@ -12,7 +12,7 @@ import { platformHomeFor } from "@/config/platform-nav";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPlatformSignIn } from "@/lib/platform-auth.functions";
 
-const title = "Platform sign in — Rocdwels";
+const title = "Platform sign in — Rocdwels Administration";
 
 export const Route = createFileRoute("/super-admin/login")({
   head: () => ({
@@ -101,12 +101,13 @@ function PlatformLoginPage() {
               />
             </div>
             <Button type="submit" className="w-full" disabled={pending}>
-              {pending ? "Verifying…" : "Sign in to platform"}
+              {pending ? "Signing in…" : "Sign in"}
             </Button>
           </form>
-          <p className="text-xs text-muted-foreground">
-            Passwords are changed from inside the console. Platform staff cannot self-register — accounts
-            are issued by the Platform Owner.
+          <p className="text-xs text-muted-foreground text-center">
+            <Link to="/login" className="font-medium text-primary hover:underline">
+              Back to workspace login
+            </Link>
           </p>
         </Card>
       </div>

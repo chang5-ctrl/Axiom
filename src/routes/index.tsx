@@ -15,9 +15,9 @@ import { Testimonials } from "@/components/landing/Testimonials";
 import { WorkspaceGeneration } from "@/components/landing/WorkspaceGeneration";
 import { billingService } from "@/services/billing.service";
 
-const title = "Axiom — AI-Powered Multi-Tenant ERP Platform";
+const title = "Rocdwels AI — AI-Powered Multi-Tenant ERP Platform";
 const description =
-  "Describe your business and receive a business operating system built around your workflow. Axiom composes modules, roles and permissions into an isolated workspace for every business.";
+  "Describe your business and receive an intelligent operating system built around your workflow. Rocdwels AI generates modules, roles and permissions into an isolated workspace for every business.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
