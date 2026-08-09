@@ -71,46 +71,25 @@ async function loadPermissionsForRole(roleKey: string): Promise<string[]> {
 /**
  * Resolve the platform identity of a verified auth user.
  *
- * Staff records may be provisioned before the account exists (invites and
- * development seeds). The first successful sign-in binds the record to the
- * verified auth user id — the email comes from the validated token, never from
- * client input.
+ * Staff records are bound to an auth user id at provisioning time by
+ * `inviteEmployee` (which creates the auth account with service-role
+ * privileges). There is deliberately no email-based binding fallback: matching
+ * on email alone would let anyone who self-registers a pre-provisioned staff
+ * address claim that record and its permissions.
  */
 export async function resolvePlatformSession(
   userId: string,
-  email: string | null,
+  _email: string | null = null,
 ): Promise<PlatformSession> {
   const empty: PlatformSession = { employee: null, role: null, permissions: [], isStaff: false };
 
-  let { data: row, error } = await supabaseAdmin
+  const { data: row, error } = await supabaseAdmin
     .from("platform_employees")
     .select(EMPLOYEE_COLUMNS)
     .eq("user_id", userId)
     .maybeSingle();
   if (error) throw new Error(error.message);
 
-  if (!row && email) {
-    const { data: pending, error: pendingError } = await supabaseAdmin
-      .from("platform_employees")
-      .select(EMPLOYEE_COLUMNS)
-      .ilike("email", email)
-      .is("user_id", null)
-      .maybeSingle();
-    if (pendingError) throw new Error(pendingError.message);
-
-    if (pending) {
-      const { data: bound, error: bindError } = await supabaseAdmin
-        .from("platform_employees")
-        .update({ user_id: userId, status: pending.status === "invited" ? "active" : pending.status })
-        .eq("id", pending.id)
-        .select(EMPLOYEE_COLUMNS)
-        .single();
-      if (bindError) throw new Error(bindError.message);
-      row = bound;
-    }
-  }
-
-  if (!row) return empty;
 
   const roles = await loadRoles();
   const role = roles.find((item) => item.key === row!.role_key) ?? null;
