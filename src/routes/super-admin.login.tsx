@@ -12,15 +12,15 @@ import { platformHomeFor } from "@/config/platform-nav";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPlatformSignIn } from "@/lib/platform-auth.functions";
 
-const title = "Platform sign in — Axiom";
+const title = "Platform sign in — Rocdwels";
 
 export const Route = createFileRoute("/super-admin/login")({
   head: () => ({
     meta: [
       { title },
-      { name: "description", content: "Authorised Axiom platform staff sign-in." },
+      { name: "description", content: "Authorised Rocdwels platform staff sign-in." },
       { property: "og:title", content: title },
-      { property: "og:description", content: "Authorised Axiom platform staff sign-in." },
+      { property: "og:description", content: "Authorised Rocdwels platform staff sign-in." },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -49,7 +49,7 @@ function PlatformLoginPage() {
       if (!session.isStaff) {
         await supabase.auth.signOut();
         setPending(false);
-        toast.error("This account is not registered as Axiom platform staff.");
+        toast.error("This account is not registered as Rocdwels platform staff.");
         return;
       }
       navigate({ to: platformHomeFor(session.employee?.roleKey) as never, replace: true });
@@ -73,7 +73,7 @@ function PlatformLoginPage() {
             </div>
             <h1 className="text-2xl font-semibold">Platform sign in</h1>
             <p className="text-sm text-muted-foreground">
-              This console is for Axiom staff. Business owners sign in through the workspace login.
+              This console is for Rocdwels staff. Business owners sign in through the workspace login.
             </p>
           </div>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -86,7 +86,7 @@ function PlatformLoginPage() {
                 required
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="you@axiom.local"
+                placeholder="you@rocdwels.local"
               />
             </div>
             <div className="space-y-2">

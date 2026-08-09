@@ -46,7 +46,7 @@ export interface ProcessStep {
   body: string;
 }
 
-/** Operational realities Axiom is built to remove. */
+/** Operational realities Rocdwels AI is built to remove. */
 export const PROBLEMS: CopyBlock[] = [
   {
     icon: Layers,
@@ -56,7 +56,7 @@ export const PROBLEMS: CopyBlock[] = [
   {
     icon: Workflow,
     title: "Software that ignores how you actually work",
-    body: "Generic ERPs force a dealership, a clinic and a restaurant through the same rigid workflow, then charge for the customisation.",
+    body: "Generic ERPs force organizations into rigid workflows designed for someone else's industry, then charge for customization.",
   },
   {
     icon: LineChart,
@@ -169,11 +169,11 @@ export const WORKSPACE_GENERATION_STEPS: ProcessStep[] = [
   {
     step: "01",
     title: "Describe your business",
-    body: "Tell Axiom what you do, how work moves through your business and who is responsible for each stage. Plain language, no configuration screens.",
+    body: "Tell Rocdwels AI what you do, how work moves through your business and who is responsible for each stage. Plain language, no configuration screens.",
   },
   {
     step: "02",
-    title: "Axiom composes your workspace",
+    title: "Rocdwels AI composes your workspace",
     body: "The platform selects the modules, role structure, permissions and records your operation needs, then provisions an isolated workspace.",
   },
   {
@@ -246,7 +246,7 @@ export const FAQS: { question: string; answer: string }[] = [
       "Authentication is implemented behind one service boundary, so one-time codes, multi-factor authentication and enterprise SSO can be enabled for your workspace without any change to your accounts or data.",
   },
   {
-    question: "Can Axiom handle multiple locations or business units?",
+    question: "Can Rocdwels AI handle multiple locations or business units?",
     answer:
       "Yes. A workspace supports multiple locations and business units, with permissions and reporting scoped per unit so managers see only what they are responsible for.",
   },

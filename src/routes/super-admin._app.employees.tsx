@@ -207,7 +207,7 @@ function EmployeesPage() {
                   required
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  placeholder="jordan@axiom.local"
+                  placeholder="jordan@rocdwels.local"
                 />
               </div>
               <div className="space-y-2">

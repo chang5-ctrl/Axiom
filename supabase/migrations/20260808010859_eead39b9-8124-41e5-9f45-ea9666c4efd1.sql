@@ -271,10 +271,10 @@ insert into public.platform_role_permissions (role_key, permission_key) values
 -- separately by the development seeding endpoint).
 -- ============================================================
 insert into public.platform_employees (email, full_name, department, role_key, status, is_seed, must_change_password) values
-  ('owner@axiom.local',      'Axiom Owner',        'Executive',   'platform_owner',     'invited', true, true),
-  ('superadmin@axiom.local', 'Axiom Super Admin',  'Platform',    'super_admin',        'invited', true, true),
-  ('operations@axiom.local', 'Axiom Operations',   'Operations',  'operations_manager', 'invited', true, true),
-  ('finance@axiom.local',    'Axiom Finance',      'Finance',     'finance_admin',      'invited', true, true),
-  ('support@axiom.local',    'Axiom Support',      'Support',     'support_engineer',   'invited', true, true),
-  ('developer@axiom.local',  'Axiom Developer',    'Engineering', 'developer',          'invited', true, true),
-  ('auditor@axiom.local',    'Axiom Auditor',      'Security',    'security_auditor',   'invited', true, true);
+  ('owner@rocdwels.local',      'Rocdwels Owner',        'Executive',   'platform_owner',     'invited', true, true),
+  ('superadmin@rocdwels.local', 'Rocdwels Super Admin',  'Platform',    'super_admin',        'invited', true, true),
+  ('operations@rocdwels.local', 'Rocdwels Operations',   'Operations',  'operations_manager', 'invited', true, true),
+  ('finance@rocdwels.local',    'Rocdwels Finance',      'Finance',     'finance_admin',      'invited', true, true),
+  ('support@rocdwels.local',    'Rocdwels Support',      'Support',     'support_engineer',   'invited', true, true),
+  ('developer@rocdwels.local',  'Rocdwels Developer',    'Engineering', 'developer',          'invited', true, true),
+  ('auditor@rocdwels.local',    'Rocdwels Auditor',      'Security',    'security_auditor',   'invited', true, true);
