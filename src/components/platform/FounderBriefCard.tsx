@@ -20,14 +20,16 @@ export function FounderBriefCard({
   brief,
   loading = false,
   compact = false,
+  className,
 }: {
   brief: FounderBrief | undefined;
   loading?: boolean;
   compact?: boolean;
+  className?: string;
 }) {
   if (loading || !brief) {
     return (
-      <Card className="panel gap-4 p-6">
+      <Card className={cn("panel gap-4 p-6", className)}>
         <Skeleton className="h-5 w-40" />
         <Skeleton className="h-4 w-full" />
         <Skeleton className="h-4 w-3/4" />
@@ -36,7 +38,7 @@ export function FounderBriefCard({
   }
 
   return (
-    <Card className="panel gap-5 p-6">
+    <Card className={cn("panel gap-5 p-6", className)}>
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
           <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
