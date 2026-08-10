@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Axiom design system.
+ * Rocdwels AI design system.
  *
  * Single dark-first theme. All colors are oklch semantic tokens.
  * Never hardcode colors in components — extend this file instead.

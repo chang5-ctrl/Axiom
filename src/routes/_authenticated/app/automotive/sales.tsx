@@ -8,9 +8,9 @@ export const Route = createFileRoute("/_authenticated/app/automotive/sales")({
   component: SalesPage,
   head: () => ({
     meta: [
-      { title: "Sales · Axiom Automotive" },
+      { title: "Sales · Rocdwels AI Automotive" },
       { name: "description", content: "Vehicle sales records and delivery status." },
-      { property: "og:title", content: "Sales · Axiom Automotive" },
+      { property: "og:title", content: "Sales · Rocdwels AI Automotive" },
       { property: "og:description", content: "Review dealership sales and payments." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

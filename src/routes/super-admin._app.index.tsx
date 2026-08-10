@@ -40,11 +40,11 @@ import { formatCurrency, formatNumber, formatPercent } from "@/lib/format";
 export const Route = createFileRoute("/super-admin/_app/")({
   head: () => ({
     meta: [
-      { title: "Mission Control · Axiom Platform" },
+      { title: "Mission Control · Rocdwels Administration" },
       {
         name: "description",
         content:
-          "Executive overview of Axiom platform revenue, workspace adoption, engagement and infrastructure health.",
+          "Executive overview of Rocdwels platform revenue, workspace adoption, engagement and infrastructure health.",
       },
     ],
   }),
@@ -85,7 +85,7 @@ function PlatformOverview() {
       <PageHeader
         eyebrow="Mission control"
         title="Executive overview"
-        description="Revenue, adoption, engagement and infrastructure across every Axiom workspace."
+        description="Revenue, adoption, engagement and infrastructure across every Rocdwels AI workspace."
       />
 
       {/* Executive overview ------------------------------------------------ */}
@@ -120,7 +120,7 @@ function PlatformOverview() {
         <MetricCard
           label="Trial businesses"
           value={count(data?.tenants.trialing)}
-          hint="Evaluating Axiom"
+          hint="Evaluating Rocdwels AI"
           icon={Sparkles}
           delta={{ value: data?.tenants.newLast7Days ?? null, label: "new in 7 days" }}
         />

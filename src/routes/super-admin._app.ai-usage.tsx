@@ -12,11 +12,11 @@ import { formatCurrency, formatNumber } from "@/lib/format";
 export const Route = createFileRoute("/super-admin/_app/ai-usage")({
   head: () => ({
     meta: [
-      { title: "AI Usage · Axiom Platform" },
+      { title: "AI Usage · Rocdwels Administration" },
       {
         name: "description",
         content:
-          "Metered AI requests, token consumption and estimated cost for Axiom workspace generation and assistants.",
+          "Metered AI requests, token consumption and estimated cost for Rocdwels AI workspace generation and assistants.",
       },
     ],
   }),

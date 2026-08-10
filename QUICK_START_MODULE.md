@@ -1,6 +1,6 @@
 # Quick Start: Adding a New Module
 
-This checklist helps you add a new module to Axiom in 10 steps.
+This checklist helps you add a new module to Rocdwels AI in 10 steps.
 
 ## Checklist
 

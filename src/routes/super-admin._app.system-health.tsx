@@ -17,7 +17,7 @@ function SystemHealthPage() {
   const { data, isPending } = usePlatformSnapshot();
   return (
     <>
-      <PageHeader eyebrow="Infrastructure" title="System health" description="Live probes against the services Axiom depends on." />
+      <PageHeader eyebrow="Infrastructure" title="System health" description="Live probes against the services Rocdwels AI depends on." />
       <PlatformPermissionGate permission="platform.health.view">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Database latency" value={data?.health.databaseLatencyMs != null ? `${data.health.databaseLatencyMs} ms` : "—"} />

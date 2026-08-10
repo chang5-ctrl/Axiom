@@ -10,7 +10,7 @@ export function Capabilities() {
         <SectionHeading
           eyebrow="Platform"
           title="Built to carry a business for years"
-          description="Every layer of Axiom is designed so new capability arrives without a rebuild: tenancy, identity, permissions, modules, reporting and audit are part of the core, not add-ons."
+          description="Every layer of Rocdwels AI is designed so new capability arrives without a rebuild: tenancy, identity, permissions, modules, reporting and audit are part of the core, not add-ons."
         />
         <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {CAPABILITIES.map((item, index) => (

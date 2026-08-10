@@ -10,9 +10,9 @@ export const Route = createFileRoute("/_authenticated/app/automotive/customers")
   component: CustomersPage,
   head: () => ({
     meta: [
-      { title: "Customers · Axiom Automotive" },
+      { title: "Customers · Rocdwels AI Automotive" },
       { name: "description", content: "Customer profiles and sales leads for your dealership." },
-      { property: "og:title", content: "Customers · Axiom Automotive" },
+      { property: "og:title", content: "Customers · Rocdwels AI Automotive" },
       { property: "og:description", content: "Track dealership customers and leads." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

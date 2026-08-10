@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Module Registry is a production-grade system that enables unlimited modules to be added to Axiom without changing the core application. Every tenant can have a completely different combination of enabled modules.
+The Module Registry is a production-grade system that enables unlimited modules to be added to Rocdwels AI without changing the core application. Every tenant can have a completely different combination of enabled modules.
 
 ## Architecture
 
@@ -451,4 +451,4 @@ The Module Registry system provides:
 ✅ **Audit trail** for compliance
 ✅ **Zero breaking changes** as the platform grows
 
-This is the foundation upon which all Axiom business modules will build.
+This is the foundation upon which all Rocdwels AI business modules will build.

@@ -66,7 +66,7 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
           </Button>
           <SidebarCollapseButton collapsed={collapsed} onToggle={toggleCollapsed} />
           <Badge variant="outline" className="gap-1.5 border-transparent bg-primary-soft text-primary">
-            <ShieldCheck className="size-3.5" /> Axiom Platform
+            <ShieldCheck className="size-3.5" /> Rocdwels Administration
           </Badge>
           {role && (
             <Badge variant="outline" className="hidden sm:inline-flex">
@@ -134,7 +134,7 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
               <EmptyState
                 icon={ShieldAlert}
                 title="Platform access required"
-                description="This console is restricted to Axiom platform staff. Your account is not registered as an internal employee."
+                description="This console is restricted to Rocdwels platform staff. Your account is not registered as an internal employee."
                 action={
                   <Button variant="outline" size="sm" onClick={handleSignOut}>
                     Sign out

@@ -12,11 +12,11 @@ import { formatNumber, formatPercent } from "@/lib/format";
 export const Route = createFileRoute("/super-admin/_app/engagement")({
   head: () => ({
     meta: [
-      { title: "Engagement · Axiom Platform" },
+      { title: "Engagement · Rocdwels Administration" },
       {
         name: "description",
         content:
-          "Daily and monthly active users, workspace health bands and module adoption across the Axiom platform.",
+          "Daily and monthly active users, workspace health bands and module adoption across the Rocdwels platform.",
       },
     ],
   }),
