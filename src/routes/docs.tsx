@@ -14,9 +14,9 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { Card } from "@/components/ui/card";
 import { APP } from "@/config/app";
 
-const title = "Documentation — Axiom Platform";
+const title = "Documentation — Rocdwels Administration";
 const description =
-  "Architecture, tenancy model, roles and permissions, modules and audit behaviour for the Axiom multi-tenant ERP platform.";
+  "Architecture, tenancy model, roles and permissions, modules and audit behaviour for the Rocdwels AI multi-tenant ERP platform.";
 
 export const Route = createFileRoute("/docs")({
   head: () => ({

@@ -13,11 +13,11 @@ import { formatNumber } from "@/lib/format";
 export const Route = createFileRoute("/super-admin/_app/businesses")({
   head: () => ({
     meta: [
-      { title: "Businesses · Axiom Platform" },
+      { title: "Businesses · Rocdwels Administration" },
       {
         name: "description",
         content:
-          "Active, trial and premium business segments with industry mix and signup trend across Axiom workspaces.",
+          "Active, trial and premium business segments with industry mix and signup trend across Rocdwels AI workspaces.",
       },
     ],
   }),
@@ -66,7 +66,7 @@ function PlatformBusinesses() {
         <MetricCard
           label="Trial businesses"
           value={count(data?.tenants.trialing)}
-          hint="Evaluating Axiom"
+          hint="Evaluating Rocdwels AI"
           icon={Sparkles}
           delta={{ value: data?.tenants.newLast7Days ?? null, label: "new in 7 days" }}
         />

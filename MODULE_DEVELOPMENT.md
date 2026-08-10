@@ -1,6 +1,6 @@
 # Module Development Guide
 
-This guide explains how to develop new modules within the Axiom platform using the Module Registry system.
+This guide explains how to develop new modules within the Rocdwels platform using the Module Registry system.
 
 ## Directory Structure
 

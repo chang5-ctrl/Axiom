@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-const title = "Axiom Platform Console";
-const description = "Internal Axiom platform operations console for authorised staff.";
+const title = "Rocdwels Administration";
+const description = "Internal Rocdwels platform operations console for authorised staff.";
 
 export const Route = createFileRoute("/super-admin")({
   head: () => ({

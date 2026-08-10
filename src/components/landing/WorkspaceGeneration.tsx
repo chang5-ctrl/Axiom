@@ -14,7 +14,7 @@ export function WorkspaceGeneration() {
         <SectionHeading
           eyebrow="AI workspace generation"
           title="Your description becomes your operating system"
-          description="Axiom reads how your business works — what you sell, how work moves, who approves what — and composes a workspace around it. Modules, roles, permissions and record structures are assembled for your operation, then remain yours to adjust."
+          description="Rocdwels AI reads how your business works — what you sell, how work moves, who approves what — and composes a workspace around it. Modules, roles, permissions and record structures are assembled for your operation, then remain yours to adjust."
         />
 
         <div className="mt-14 grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">

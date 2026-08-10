@@ -12,9 +12,9 @@ export const Route = createFileRoute("/_authenticated/app/automotive/vehicles")(
   component: VehiclesPage,
   head: () => ({
     meta: [
-      { title: "Vehicle inventory · Axiom Automotive" },
-      { name: "description", content: "Manage your dealership vehicle inventory in Axiom." },
-      { property: "og:title", content: "Vehicle inventory · Axiom Automotive" },
+      { title: "Vehicle inventory · Rocdwels AI Automotive" },
+      { name: "description", content: "Manage your dealership vehicle inventory in Rocdwels AI." },
+      { property: "og:title", content: "Vehicle inventory · Rocdwels AI Automotive" },
       { property: "og:description", content: "Track stock, pricing and vehicle status." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

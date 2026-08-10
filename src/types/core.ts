@@ -1,7 +1,7 @@
 import type { Database } from "@/integrations/supabase/types";
 
 /**
- * Domain types for the Axiom platform core.
+ * Domain types for the Rocdwels platform core.
  *
  * Everything is derived from the generated database types so schema changes
  * surface as compile errors instead of runtime surprises.

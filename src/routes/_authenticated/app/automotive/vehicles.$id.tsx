@@ -9,9 +9,9 @@ export const Route = createFileRoute("/_authenticated/app/automotive/vehicles/$i
   component: VehicleDetail,
   head: () => ({
     meta: [
-      { title: "Vehicle details · Axiom Automotive" },
+      { title: "Vehicle details · Rocdwels AI Automotive" },
       { name: "description", content: "Full specification and status for a single vehicle." },
-      { property: "og:title", content: "Vehicle details · Axiom Automotive" },
+      { property: "og:title", content: "Vehicle details · Rocdwels AI Automotive" },
       { property: "og:description", content: "Inspect vehicle specification, pricing and status." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

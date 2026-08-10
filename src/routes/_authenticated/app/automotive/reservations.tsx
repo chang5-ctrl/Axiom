@@ -10,9 +10,9 @@ export const Route = createFileRoute("/_authenticated/app/automotive/reservation
   component: ReservationsPage,
   head: () => ({
     meta: [
-      { title: "Reservations · Axiom Automotive" },
+      { title: "Reservations · Rocdwels AI Automotive" },
       { name: "description", content: "Vehicle reservations and holds for your dealership." },
-      { property: "og:title", content: "Reservations · Axiom Automotive" },
+      { property: "og:title", content: "Reservations · Rocdwels AI Automotive" },
       { property: "og:description", content: "Manage active vehicle reservations." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

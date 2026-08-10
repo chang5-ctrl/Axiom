@@ -37,7 +37,7 @@ export function SolutionSection() {
         <SectionHeading
           eyebrow="The solution"
           title="One platform that assembles itself around your operation"
-          description="Axiom keeps a single, governed core — tenants, people, permissions, billing and audit — and composes the operational modules your business actually needs on top of it."
+          description="Rocdwels AI keeps a single, governed core — tenants, people, permissions, billing and audit — and composes the operational modules your business actually needs on top of it."
         />
         <div className="mt-14 grid gap-5 md:grid-cols-3">
           {SOLUTIONS.map((solution, index) => (

@@ -29,7 +29,7 @@ export function Testimonials({ stories = CUSTOMER_STORIES }: { stories?: Custome
           eyebrow={hasStories ? "Customer stories" : "Trust"}
           title={
             hasStories
-              ? "What operators say about running on Axiom"
+              ? "What operators say about running on Rocdwels AI"
               : "Standards we hold before you trust us with your business"
           }
           description={

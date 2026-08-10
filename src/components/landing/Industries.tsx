@@ -45,7 +45,7 @@ export function Industries() {
         </div>
 
         <Reveal delay={120} className="mt-10 flex flex-wrap items-center gap-3">
-          <span className="text-sm text-muted-foreground">Also operating on Axiom:</span>
+          <span className="text-sm text-muted-foreground">Also operating on Rocdwels AI:</span>
           {ADDITIONAL_INDUSTRIES.map((item) => (
             <span
               key={item.name}
